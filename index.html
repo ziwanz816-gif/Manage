@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User & Device Manager — JSONBin</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:#09090f;
+    color:#f4f4f5;
+    font-size:12px;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.container{
+    width:calc(100% - 12px);
+    max-width:1400px;
+    margin:auto;
+}
+
+/* ===== HEADER ===== */
+header{
+    padding:10px 0 8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    position:relative;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-shrink:0;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-left:auto;
+}
+
+/* =========================================================
+   ANIMASI TENGGORAK PIXEL HIJAU
+   ========================================================= */
+.skull-anim{
+    position:relative;
+    width:34px;
+    height:36px;
+    flex-shrink:0;
+    image-rendering:pixelated;
+    filter:drop-shadow(0 0 5px rgba(34,197,94,.7));
+    animation:skullFloat 2.6s ease-in-out infinite;
+}
+.skull-anim .p{
+    position:absolute;
+    width:2.6px;
+    height:2.6px;
+    background:#22c55e;
+    box-shadow:0 0 3px rgba(34,197,94,.6);
+}
+.skull-anim .p[data-r="0"][data-c="4"]{left:10.4px;top:0}
+.skull-anim .p[data-r="0"][data-c="5"]{left:13px;top:0}
+.skull-anim .p[data-r="0"][data-c="6"]{left:15.6px;top:0}
+.skull-anim .p[data-r="0"][data-c="7"]{left:18.2px;top:0}
+.skull-anim .p[data-r="1"][data-c="3"]{left:7.8px;top:2.6px}
+.skull-anim .p[data-r="1"][data-c="4"]{left:10.4px;top:2.6px}
+.skull-anim .p[data-r="1"][data-c="5"]{left:13px;top:2.6px}
+.skull-anim .p[data-r="1"][data-c="6"]{left:15.6px;top:2.6px}
+.skull-anim .p[data-r="1"][data-c="7"]{left:18.2px;top:2.6px}
+.skull-anim .p[data-r="1"][data-c="8"]{left:20.8px;top:2.6px}
+.skull-anim .p[data-r="2"][data-c="2"]{left:5.2px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="3"]{left:7.8px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="4"]{left:10.4px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="5"]{left:13px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="6"]{left:15.6px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="7"]{left:18.2px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="8"]{left:20.8px;top:5.2px}
+.skull-anim .p[data-r="2"][data-c="9"]{left:23.4px;top:5.2px}
+.skull-anim .p[data-r="3"][data-c="2"]{left:5.2px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="3"]{left:7.8px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="4"]{left:10.4px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="5"]{left:13px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="6"]{left:15.6px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="7"]{left:18.2px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="8"]{left:20.8px;top:7.8px}
+.skull-anim .p[data-r="3"][data-c="9"]{left:23.4px;top:7.8px}
+.skull-anim .p[data-r="4"][data-c="2"]{left:5.2px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="3"]{left:7.8px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="4"]{left:10.4px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="5"]{left:13px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="6"]{left:15.6px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="7"]{left:18.2px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="8"]{left:20.8px;top:10.4px}
+.skull-anim .p[data-r="4"][data-c="9"]{left:23.4px;top:10.4px}
+.skull-anim .p[data-r="5"][data-c="2"]{left:5.2px;top:13px}
+.skull-anim .p[data-r="5"][data-c="3"]{left:7.8px;top:13px}
+.skull-anim .p[data-r="5"][data-c="4"]{left:10.4px;top:13px}
+.skull-anim .p[data-r="5"][data-c="5"]{left:13px;top:13px}
+.skull-anim .p[data-r="5"][data-c="6"]{left:15.6px;top:13px}
+.skull-anim .p[data-r="5"][data-c="7"]{left:18.2px;top:13px}
+.skull-anim .p[data-r="5"][data-c="8"]{left:20.8px;top:13px}
+.skull-anim .p[data-r="5"][data-c="9"]{left:23.4px;top:13px}
+.skull-anim .p[data-r="6"][data-c="3"]{left:7.8px;top:15.6px}
+.skull-anim .p[data-r="6"][data-c="4"]{left:10.4px;top:15.6px}
+.skull-anim .p[data-r="6"][data-c="5"]{left:13px;top:15.6px}
+.skull-anim .p[data-r="6"][data-c="6"]{left:15.6px;top:15.6px}
+.skull-anim .p[data-r="6"][data-c="7"]{left:18.2px;top:15.6px}
+.skull-anim .p[data-r="6"][data-c="8"]{left:20.8px;top:15.6px}
+.skull-anim .p[data-r="7"][data-c="3"]{left:7.8px;top:18.2px}
+.skull-anim .p[data-r="7"][data-c="4"]{left:10.4px;top:18.2px}
+.skull-anim .p[data-r="7"][data-c="5"]{left:13px;top:18.2px}
+.skull-anim .p[data-r="7"][data-c="6"]{left:15.6px;top:18.2px}
+.skull-anim .p[data-r="7"][data-c="7"]{left:18.2px;top:18.2px}
+.skull-anim .p[data-r="7"][data-c="8"]{left:20.8px;top:18.2px}
+.skull-anim .p[data-r="8"][data-c="3"]{left:7.8px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="4"]{left:10.4px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="5"]{left:13px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="6"]{left:15.6px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="7"]{left:18.2px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="8"]{left:20.8px;top:20.8px}
+.skull-anim .p[data-r="8"][data-c="9"]{left:23.4px;top:20.8px}
+.skull-anim .p[data-r="9"][data-c="4"]{left:10.4px;top:23.4px}
+.skull-anim .p[data-r="9"][data-c="5"]{left:13px;top:23.4px}
+.skull-anim .p[data-r="9"][data-c="6"]{left:15.6px;top:23.4px}
+.skull-anim .p[data-r="9"][data-c="7"]{left:18.2px;top:23.4px}
+.skull-anim .p[data-r="9"][data-c="8"]{left:20.8px;top:23.4px}
+.skull-anim .p[data-r="10"][data-c="4"]{left:10.4px;top:26px}
+.skull-anim .p[data-r="10"][data-c="5"]{left:13px;top:26px}
+.skull-anim .p[data-r="10"][data-c="6"]{left:15.6px;top:26px}
+.skull-anim .p[data-r="10"][data-c="7"]{left:18.2px;top:26px}
+.skull-anim .p[data-r="11"][data-c="1"]{left:2.6px;top:28.6px}
+.skull-anim .p[data-r="11"][data-c="10"]{left:26px;top:28.6px}
+.skull-anim .p[data-r="12"][data-c="2"]{left:5.2px;top:31.2px}
+.skull-anim .p[data-r="12"][data-c="9"]{left:23.4px;top:31.2px}
+.skull-anim .p[data-r="13"][data-c="3"]{left:7.8px;top:33.8px}
+.skull-anim .p[data-r="13"][data-c="4"]{left:10.4px;top:33.8px}
+.skull-anim .p[data-r="13"][data-c="5"]{left:13px;top:33.8px}
+.skull-anim .p[data-r="13"][data-c="6"]{left:15.6px;top:33.8px}
+.skull-anim .p[data-r="13"][data-c="7"]{left:18.2px;top:33.8px}
+.skull-anim .p[data-r="13"][data-c="8"]{left:20.8px;top:33.8px}
+.skull-anim .p.eye{animation:skullEye 2.6s steps(1) infinite}
+.skull-anim .p[data-r="4"][data-c="3"],
+.skull-anim .p[data-r="4"][data-c="4"],
+.skull-anim .p[data-r="4"][data-c="7"],
+.skull-anim .p[data-r="4"][data-c="8"],
+.skull-anim .p[data-r="5"][data-c="3"],
+.skull-anim .p[data-r="5"][data-c="4"],
+.skull-anim .p[data-r="5"][data-c="7"],
+.skull-anim .p[data-r="5"][data-c="8"],
+.skull-anim .p[data-r="6"][data-c="5"],
+.skull-anim .p[data-r="6"][data-c="6"]{background:#0a0a12;box-shadow:none}
+.skull-anim .p.tooth{animation:skullTooth 2.6s ease-in-out infinite}
+.skull-anim .p[data-r="8"][data-c="4"],
+.skull-anim .p[data-r="8"][data-c="6"],
+.skull-anim .p[data-r="8"][data-c="8"],
+.skull-anim .p[data-r="9"][data-c="5"],
+.skull-anim .p[data-r="9"][data-c="7"]{background:#0a0a12;box-shadow:none}
+.skull-anim .p.cross-1{background:#16a34a;animation:skullCross 2.6s ease-in-out infinite}
+@keyframes skullFloat{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-2px) rotate(-2deg)}
+    75%{transform:translateY(-2px) rotate(2deg)}
+}
+@keyframes skullEye{0%,88%{opacity:1}89%,100%{opacity:.1}}
+@keyframes skullTooth{0%,80%,100%{opacity:1}85%,95%{opacity:.35}}
+@keyframes skullCross{0%,100%{opacity:1}50%{opacity:.65}}
+
+/* ===== ICON KONEKSI ===== */
+.conn-icon{
+    display:flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:7px;
+    background:#11111a;border:1px solid #242431;
+    flex-shrink:0;cursor:default;position:relative;
+    transition:border-color .3s, background .3s;
+}
+.conn-icon svg{width:13px;height:13px;display:block}
+.conn-icon.loading svg{stroke:#f59e0b}
+.conn-icon.loading{border-color:#3b2e10}
+.conn-icon.ok svg{stroke:#22c55e}
+.conn-icon.ok{border-color:#14532d}
+.conn-icon.ok::after{
+    content:"";position:absolute;inset:-2px;border-radius:9px;
+    border:1px solid #22c55e;opacity:.6;
+    animation:pulseRing 1.6s ease-out infinite;
+}
+@keyframes pulseRing{
+    0%{transform:scale(.9);opacity:.7}
+    70%{transform:scale(1.25);opacity:0}
+    100%{transform:scale(1.25);opacity:0}
+}
+.conn-icon.err svg{stroke:#ef4444}
+.conn-icon.err{border-color:#7f1d1d}
+
+/* ===== TOMBOL ===== */
+.header-actions{display:flex;gap:5px;flex-wrap:wrap}
+.btn{
+    border:1px solid #292938;background:#15151f;color:#eee;
+    padding:5px 9px;border-radius:7px;font-size:10px;
+}
+.btn:hover{background:#1d1d2a}
+.btn-primary{border:0;background:#7c3aed;color:#fff}
+.btn-primary:hover{background:#6d28d9}
+.btn-danger{color:#ff7373}
+.btn-block{width:100%;padding:10px;font-size:12px}
+
+/* ===== STATS ===== */
+.stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:5px;margin-bottom:8px;
+}
+.stat{
+    background:#11111a;border:1px solid #232330;
+    border-radius:8px;padding:6px 8px;
+}
+.stat .label{color:#858594;font-size:8px;letter-spacing:.4px}
+.stat .value{font-size:13px;font-weight:800;margin-top:1px}
+
+/* ===== TOOLBAR ===== */
+.toolbar{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.search{flex:1;min-width:120px}
+.input{
+    width:100%;background:#101019;color:#fff;
+    border:1px solid #292938;outline:none;
+    padding:6px 9px;border-radius:7px;font-size:10px;
+}
+.input:focus{border-color:#7c3aed}
+
+/* =========================================================
+   HALAMAN UTAMA — DAFTAR FOLDER (3 KOLOM)
+   ========================================================= */
+.folders-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:10px;
+}
+
+.folder-card{
+    background:#11111a;
+    border:1px solid #252532;
+    border-radius:10px;
+    padding:12px;
+    cursor:pointer;
+    transition:border-color .2s, background .2s, transform .1s;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:0;
+}
+.folder-card:hover{
+    border-color:#7c3aed;
+    background:#14141f;
+}
+.folder-card:active{transform:scale(.985)}
+
+.folder-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+    min-width:0;
+}
+.folder-icon{
+    font-size:20px;
+    line-height:1;
+    flex-shrink:0;
+}
+.folder-name{
+    font-weight:700;
+    font-size:14px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    min-width:0;
+    flex:1;
+}
+.folder-count{
+    font-size:10px;
+    color:#8d8d9b;
+    white-space:nowrap;
+    background:#0c0c13;
+    border:1px solid #1e1e29;
+    padding:3px 7px;
+    border-radius:999px;
+    flex-shrink:0;
+}
+.folder-count.full{
+    color:#fbbf24;
+    border-color:#3b2e10;
+}
+
+.folder-body{
+    font-size:10px;
+    color:#8d8d9b;
+    line-height:1.4;
+}
+.folder-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+    margin-top:auto;
+}
+.folder-actions .btn{
+    padding:5px 4px;
+    font-size:9px;
+    text-align:center;
+}
+
+.add-folder-card{
+    background:#0c0c13;
+    border:1px dashed #3a3a4a;
+    border-radius:10px;
+    padding:20px 12px;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    text-align:center;
+    color:#a1a1aa;
+    font-size:11px;
+    min-height:120px;
+}
+.add-folder-card:hover{
+    border-color:#7c3aed;
+    color:#c4b5fd;
+    background:#11111a;
+}
+.add-folder-card .plus{
+    font-size:24px;
+    line-height:1;
+}
+
+/* =========================================================
+   HALAMAN FOLDER — USER CARDS (3 KOLOM)
+   ========================================================= */
+.folder-view-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+}
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    border:1px solid #292938;
+    background:#15151f;
+    color:#eee;
+    padding:5px 10px;
+    border-radius:7px;
+    font-size:11px;
+}
+.back-btn:hover{background:#1d1d2a}
+.folder-title{
+    font-weight:700;
+    font-size:14px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+}
+.folder-badge{
+    font-size:9px;
+    padding:2px 6px;
+    border-radius:999px;
+    background:#123c27;
+    color:#4ade80;
+    font-weight:700;
+    letter-spacing:.4px;
+}
+.folder-badge.full{
+    background:#3b2e10;
+    color:#fbbf24;
+}
+.folder-view-actions{
+    margin-left:auto;
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+/* ===== GRID USER — 3 KOLOM ===== */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:8px;
+}
+
+/* ===== CARD USER ===== */
+.card{
+    background:#11111a;
+    border:1px solid #252532;
+    border-radius:9px;
+    padding:9px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-width:0;
+    height:100%;
+}
+.card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:5px;
+    min-width:0;
+}
+.badge{
+    font-size:7.5px;
+    padding:2px 5px;
+    border-radius:999px;
+    white-space:nowrap;
+    font-weight:700;
+    letter-spacing:.3px;
+    flex-shrink:0;
+}
+.badge.running{background:#123c27;color:#4ade80}
+.badge.paused{background:#3b2e10;color:#fbbf24}
+.badge.idle{background:#27272f;color:#aaa}
+.badge.expired{background:#42191d;color:#f87171}
+
+.info{
+    background:#0c0c13;
+    border:1px solid #1e1e29;
+    padding:5px 6px;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width:0;
+}
+.info-row{
+    display:flex;
+    align-items:center;
+    gap:3px;
+    font-size:9.5px;
+    line-height:1.25;
+    min-width:0;
+}
+.info-row .k{color:#70707e;flex-shrink:0}
+.info-row .v{
+    color:#e5e5ea;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    min-width:0;
+    flex:1;
+}
+.info-row .v.pw{font-family:monospace;letter-spacing:.5px}
+.info-row .k.k-in{color:#fbbf24;font-weight:700}
+.info-row .v.v-in{color:#fde68a;font-weight:600}
+.info-row .icon-btn{
+    border:1px solid #292938;
+    background:#15151f;
+    color:#c4b5fd;
+    font-size:8px;
+    padding:1px 5px;
+    border-radius:4px;
+    flex-shrink:0;
+    line-height:1;
+}
+.info-row .icon-btn:hover{background:#1d1d2a}
+
+/* ===== TIMER RING ===== */
+.timer-ring{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    padding:3px 0 1px;
+}
+.ring-wrap{
+    position:relative;
+    width:78px;
+    height:78px;
+    flex-shrink:0;
+}
+.ring-wrap svg{
+    width:100%;height:100%;
+    transform:rotate(-90deg);
+    display:block;
+}
+.ring-bg{fill:none;stroke:#1a1a24;stroke-width:6}
+.ring-fg{
+    fill:none;stroke:#22c55e;stroke-width:6;
+    stroke-linecap:butt;
+    transition:stroke-dashoffset .3s linear, stroke .5s ease;
+}
+.ring-fg.green {stroke:#22c55e}
+.ring-fg.orange{stroke:#f59e0b}
+.ring-fg.red   {stroke:#ef4444}
+.ring-fg.dead  {stroke:#3a1a1c}
+.ring-text{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:11px;
+    letter-spacing:.3px;
+    font-variant-numeric:tabular-nums;
+    line-height:1;color:#fff;
+}
+.timer-label{
+    font-size:8px;
+    color:#8d8d9b;
+    text-align:center;
+    letter-spacing:.3px;
+}
+
+.card-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:4px;
+    margin-top:auto;
+}
+.card-actions .btn{
+    padding:5px 3px;
+    font-size:9.5px;
+    text-align:center;
+    border-radius:6px;
+}
+
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:40px 15px;
+    color:#777784;
+    font-size:12px;
+}
+
+/* ===== MODAL ===== */
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+}
+.overlay.show{display:flex}
+.modal{
+    width:min(420px,100%);
+    background:#11111a;
+    border:1px solid #2a2a38;
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 20px 70px rgba(0,0,0,.5);
+    max-height:calc(100vh - 24px);
+    overflow-y:auto;
+}
+.modal h2{margin:0 0 12px;font-size:14px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:10px;color:#9999a8;margin-bottom:4px}
+.modal-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:14px}
+
+/* ===== TOAST ===== */
+.toast{
+    position:fixed;
+    right:12px;
+    bottom:12px;
+    background:#181822;
+    border:1px solid #333341;
+    padding:9px 12px;
+    border-radius:8px;
+    font-size:11px;
+    max-width:min(360px,calc(100% - 24px));
+    z-index:300;
+    transform:translateY(20px);
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{border-color:#7f1d1d}
+.toast.success{border-color:#166534}
+
+code{color:#c4b5fd}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+    .folders-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+    .grid{grid-template-columns:repeat(3,1fr);gap:6px}
+}
+@media(max-width:600px){
+    body{font-size:11px}
+    .container{width:calc(100% - 8px)}
+    .folders-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+    .grid{grid-template-columns:repeat(3,1fr);gap:5px}
+    .card{padding:7px;gap:5px}
+    .info-row{font-size:8.5px}
+    .ring-wrap{width:64px;height:64px}
+    .ring-text{font-size:9.5px}
+    .folder-name{font-size:12px}
+    .skull-anim{width:28px;height:30px}
+    .skull-anim .p{width:2.2px;height:2.2px}
+}
+@media(max-width:420px){
+    .folders-grid{grid-template-columns:repeat(2,1fr);gap:5px}
+    .grid{grid-template-columns:repeat(3,1fr);gap:4px}
+    .card{padding:5px;gap:4px}
+    .info-row{font-size:7.5px}
+    .ring-wrap{width:54px;height:54px}
+    .ring-text{font-size:8px}
+    .timer-label{font-size:6.5px}
+    .card-actions .btn{padding:4px 2px;font-size:8px}
+    .badge{font-size:6px;padding:1px 4px}
+    .folder-card{padding:9px}
+    .folder-icon{font-size:16px}
+    .folder-name{font-size:11px}
+    .folder-count{font-size:9px;padding:2px 5px}
+    .skull-anim{width:24px;height:26px}
+    .skull-anim .p{width:1.9px;height:1.9px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <!-- KIRI ATAS: ANIMASI TENGGORAK PIXEL HIJAU -->
+    <div class="header-left">
+        <div class="skull-anim" aria-hidden="true">
+            <span class="p" data-r="0" data-c="4"></span>
+            <span class="p" data-r="0" data-c="5"></span>
+            <span class="p" data-r="0" data-c="6"></span>
+            <span class="p" data-r="0" data-c="7"></span>
+            <span class="p" data-r="1" data-c="3"></span>
+            <span class="p" data-r="1" data-c="4"></span>
+            <span class="p" data-r="1" data-c="5"></span>
+            <span class="p" data-r="1" data-c="6"></span>
+            <span class="p" data-r="1" data-c="7"></span>
+            <span class="p" data-r="1" data-c="8"></span>
+            <span class="p" data-r="2" data-c="2"></span>
+            <span class="p" data-r="2" data-c="3"></span>
+            <span class="p" data-r="2" data-c="4"></span>
+            <span class="p" data-r="2" data-c="5"></span>
+            <span class="p" data-r="2" data-c="6"></span>
+            <span class="p" data-r="2" data-c="7"></span>
+            <span class="p" data-r="2" data-c="8"></span>
+            <span class="p" data-r="2" data-c="9"></span>
+            <span class="p" data-r="3" data-c="2"></span>
+            <span class="p" data-r="3" data-c="3"></span>
+            <span class="p" data-r="3" data-c="4"></span>
+            <span class="p" data-r="3" data-c="5"></span>
+            <span class="p" data-r="3" data-c="6"></span>
+            <span class="p" data-r="3" data-c="7"></span>
+            <span class="p" data-r="3" data-c="8"></span>
+            <span class="p" data-r="3" data-c="9"></span>
+            <span class="p" data-r="4" data-c="2"></span>
+            <span class="p eye" data-r="4" data-c="3"></span>
+            <span class="p eye" data-r="4" data-c="4"></span>
+            <span class="p" data-r="4" data-c="5"></span>
+            <span class="p" data-r="4" data-c="6"></span>
+            <span class="p eye" data-r="4" data-c="7"></span>
+            <span class="p eye" data-r="4" data-c="8"></span>
+            <span class="p" data-r="4" data-c="9"></span>
+            <span class="p" data-r="5" data-c="2"></span>
+            <span class="p eye" data-r="5" data-c="3"></span>
+            <span class="p eye" data-r="5" data-c="4"></span>
+            <span class="p" data-r="5" data-c="5"></span>
+            <span class="p" data-r="5" data-c="6"></span>
+            <span class="p eye" data-r="5" data-c="7"></span>
+            <span class="p eye" data-r="5" data-c="8"></span>
+            <span class="p" data-r="5" data-c="9"></span>
+            <span class="p" data-r="6" data-c="3"></span>
+            <span class="p" data-r="6" data-c="4"></span>
+            <span class="p eye" data-r="6" data-c="5"></span>
+            <span class="p eye" data-r="6" data-c="6"></span>
+            <span class="p" data-r="6" data-c="7"></span>
+            <span class="p" data-r="6" data-c="8"></span>
+            <span class="p" data-r="7" data-c="3"></span>
+            <span class="p" data-r="7" data-c="4"></span>
+            <span class="p" data-r="7" data-c="5"></span>
+            <span class="p" data-r="7" data-c="6"></span>
+            <span class="p" data-r="7" data-c="7"></span>
+            <span class="p" data-r="7" data-c="8"></span>
+            <span class="p" data-r="8" data-c="3"></span>
+            <span class="p tooth" data-r="8" data-c="4"></span>
+            <span class="p" data-r="8" data-c="5"></span>
+            <span class="p tooth" data-r="8" data-c="6"></span>
+            <span class="p" data-r="8" data-c="7"></span>
+            <span class="p tooth" data-r="8" data-c="8"></span>
+            <span class="p" data-r="8" data-c="9"></span>
+            <span class="p" data-r="9" data-c="4"></span>
+            <span class="p tooth" data-r="9" data-c="5"></span>
+            <span class="p" data-r="9" data-c="6"></span>
+            <span class="p tooth" data-r="9" data-c="7"></span>
+            <span class="p" data-r="9" data-c="8"></span>
+            <span class="p" data-r="10" data-c="4"></span>
+            <span class="p" data-r="10" data-c="5"></span>
+            <span class="p" data-r="10" data-c="6"></span>
+            <span class="p" data-r="10" data-c="7"></span>
+            <span class="p cross-1" data-r="11" data-c="1"></span>
+            <span class="p cross-1" data-r="11" data-c="10"></span>
+            <span class="p cross-1" data-r="12" data-c="2"></span>
+            <span class="p cross-1" data-r="12" data-c="9"></span>
+            <span class="p cross-1" data-r="13" data-c="3"></span>
+            <span class="p cross-1" data-r="13" data-c="4"></span>
+            <span class="p cross-1" data-r="13" data-c="5"></span>
+            <span class="p cross-1" data-r="13" data-c="6"></span>
+            <span class="p cross-1" data-r="13" data-c="7"></span>
+            <span class="p cross-1" data-r="13" data-c="8"></span>
+        </div>
+    </div>
+
+    <div class="header-right">
+        <div id="connIcon" class="conn-icon loading" title="Menghubungkan...">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="loadData()">↻ Refresh</button>
+        </div>
+    </div>
+</header>
+
+<!-- STATS GLOBAL -->
+<section class="stats">
+    <div class="stat">
+        <div class="label">TOTAL FOLDER</div>
+        <div class="value" id="totalFolders">0</div>
+    </div>
+    <div class="stat">
+        <div class="label">TOTAL USER</div>
+        <div class="value" id="totalUsers">0</div>
+    </div>
+    <div class="stat">
+        <div class="label">RUNNING</div>
+        <div class="value" id="runningUsers">0</div>
+    </div>
+    <div class="stat">
+        <div class="label">EXPIRED</div>
+        <div class="value" id="expiredUsers">0</div>
+    </div>
+</section>
+
+<!-- VIEW: DAFTAR FOLDER -->
+<div id="folderView">
+    <div class="toolbar">
+        <div class="search">
+            <input id="searchFolder" class="input"
+                   placeholder="Cari nama folder..."
+                   oninput="renderFolders()">
+        </div>
+    </div>
+    <div id="foldersGrid" class="folders-grid"></div>
+</div>
+
+<!-- VIEW: ISI FOLDER -->
+<div id="userView" style="display:none">
+    <div class="folder-view-bar">
+        <button class="back-btn" onclick="closeFolder()">← Kembali</button>
+        <div class="folder-title">
+            <span id="currentFolderIcon">📁</span>
+            <span id="currentFolderName">Folder</span>
+            <span id="currentFolderBadge" class="folder-badge">0/6</span>
+        </div>
+        <div class="folder-view-actions">
+            <button class="btn btn-primary" onclick="openAddUser()">+ Tambah User</button>
+        </div>
+    </div>
+    <div class="toolbar">
+        <div class="search">
+            <input id="search" class="input"
+                   placeholder="Cari email / name / IN..."
+                   oninput="render()">
+        </div>
+        <select id="filter" class="input" style="max-width:140px" onchange="render()">
+            <option value="all">Semua Status</option>
+            <option value="running">Running</option>
+            <option value="paused">Paused</option>
+            <option value="idle">Idle</option>
+            <option value="expired">Expired</option>
+        </select>
+    </div>
+    <div id="grid" class="grid"></div>
+</div>
+
+</div>
+
+
+<!-- ================= MODAL TAMBAH/EDIT FOLDER ================= -->
+<div id="folderModal" class="overlay">
+    <div class="modal">
+        <h2 id="folderModalTitle">Tambah Folder</h2>
+        <input type="hidden" id="folderEditId">
+        <div class="field">
+            <label>Nama Folder</label>
+            <input id="folderName" class="input" placeholder="Contoh: Folder Gaming">
+        </div>
+        <div class="modal-actions">
+            <button class="btn" onclick="closeFolderModal()">Batal</button>
+            <button class="btn btn-primary" onclick="saveFolder()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= MODAL TAMBAH/EDIT USER ================= -->
+<div id="userModal" class="overlay">
+    <div class="modal">
+        <h2 id="modalTitle">Tambah User</h2>
+
+        <input type="hidden" id="editId">
+
+        <div class="field">
+            <label>Folder</label>
+            <select id="userFolder" class="input"></select>
+        </div>
+
+        <div class="field">
+            <label>Email</label>
+            <input id="email" class="input" placeholder="email@example.com">
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <input id="password" class="input" placeholder="password">
+        </div>
+
+        <div class="field">
+            <label>IN</label>
+            <input id="inValue" class="input" placeholder="isi IN (opsional)">
+        </div>
+
+        <div class="field">
+            <label>Followers</label>
+            <input id="followers" class="input" type="number" min="0" value="0">
+        </div>
+
+        <div class="field">
+            <label>Name</label>
+            <input id="name" class="input" placeholder="name">
+        </div>
+
+        <div class="field">
+            <label>Durasi Timer</label>
+            <select id="duration" class="input">
+                <option value="1">1 Hari (24:00:00)</option>
+                <option value="2">2 Hari (48:00:00)</option>
+                <option value="3">3 Hari (72:00:00)</option>
+                <option value="7">7 Hari (168:00:00)</option>
+                <option value="14">14 Hari (336:00:00)</option>
+                <option value="30">30 Hari (720:00:00)</option>
+            </select>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn" onclick="closeModal()">Batal</button>
+            <button class="btn btn-primary" onclick="saveUser()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= MODAL HAPUS ================= -->
+<div id="deleteModal" class="overlay">
+    <div class="modal">
+        <h2 id="deleteTitle">Hapus?</h2>
+        <p id="deleteText" style="color:#9999a8;font-size:11px">
+            Data akan dihapus.
+        </p>
+
+        <input type="hidden" id="deleteId">
+        <input type="hidden" id="deleteType">
+
+        <div class="modal-actions">
+            <button class="btn" onclick="closeDelete()">Batal</button>
+            <button class="btn btn-danger" onclick="confirmDelete()">Hapus</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+/* =========================================================
+   KONSTANTA
+   ========================================================= */
+
+const SECONDS_PER_DAY = 86400;
+const MAX_USERS_PER_FOLDER = 6;
+
+
+/* =========================================================
+   JSONBIN CONFIG
+   ========================================================= */
+
+const JSONBIN_BIN_ID = "6aace851ac6210605adb62a2";
+const JSONBIN_MASTER_KEY = "$2a$10$U/vFMM2oNl9JCMpH50XJi.xZvGbSxy.vL6xwgoN7pVIH1antwH0Xm";
+const JSONBIN_BASE = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+/* Struktur data baru:
+   {
+     folders: [
+        { id, name, createdAt },
+        ...
+     ],
+     users: [
+        { id, folderId, email, password, inValue, followers,
+          name, deviceId, timer:{...} },
+        ...
+     ]
+   }
+*/
+let folders = [];
+let users = [];
+
+let activeFolderId = null;
+
+let loading = false;
+const revealedPasswords = new Set();
+let tickInterval = null;
+
+
+/* =========================================================
+   JSONBIN
+   ========================================================= */
+
+function jsonbinHeaders() {
+    return {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_MASTER_KEY
+    };
+}
+
+
+/* Load mendukung format lama (array users saja) & format baru */
+async function apiLoad() {
+
+    if (!JSONBIN_BIN_ID || !JSONBIN_MASTER_KEY ||
+        JSONBIN_MASTER_KEY === "ISI_MASTER_KEY_DI_SINI") {
+        throw new Error("Master Key belum diisi di JSONBIN_MASTER_KEY.");
+    }
+
+    const response = await fetch(
+        JSONBIN_BASE + "/latest?meta=false",
+        {
+            method: "GET",
+            headers: { "X-Master-Key": JSONBIN_MASTER_KEY },
+            cache: "no-store"
+        }
+    );
+
+    const text = await response.text();
+
+    let data;
+    try { data = JSON.parse(text); }
+    catch { throw new Error("Response JSONBin tidak valid: " + text); }
+
+    if (!response.ok) {
+        throw new Error(data.message || ("HTTP " + response.status));
+    }
+
+    /* Format baru: { folders:[], users:[] } */
+    if (data && typeof data === "object" &&
+        Array.isArray(data.users) && Array.isArray(data.folders)) {
+        return { folders: data.folders, users: data.users };
+    }
+
+    /* Format lama: array users → migrasi otomatis ke folder default */
+    if (Array.isArray(data)) {
+        const defaultFolder = {
+            id: "f_default_" + Date.now().toString(36),
+            name: "Folder 1",
+            createdAt: new Date().toISOString()
+        };
+        const migrated = data.map(u => ({
+            ...u,
+            folderId: u.folderId || defaultFolder.id
+        }));
+        return { folders: [defaultFolder], users: migrated };
+    }
+
+    /* Format lama lain: { users: [] } */
+    if (data && Array.isArray(data.users)) {
+        const defaultFolder = {
+            id: "f_default_" + Date.now().toString(36),
+            name: "Folder 1",
+            createdAt: new Date().toISOString()
+        };
+        const migrated = data.users.map(u => ({
+            ...u,
+            folderId: u.folderId || defaultFolder.id
+        }));
+        return { folders: [defaultFolder], users: migrated };
+    }
+
+    return { folders: [], users: [] };
+}
+
+
+async function apiSave(dataObj) {
+
+    if (!JSONBIN_BIN_ID || !JSONBIN_MASTER_KEY ||
+        JSONBIN_MASTER_KEY === "ISI_MASTER_KEY_DI_SINI") {
+        throw new Error("Master Key belum diisi di JSONBIN_MASTER_KEY.");
+    }
+
+    const response = await fetch(
+        JSONBIN_BASE,
+        {
+            method: "PUT",
+            headers: jsonbinHeaders(),
+            body: JSON.stringify({
+                folders: dataObj.folders,
+                users: dataObj.users
+            })
+        }
+    );
+
+    const text = await response.text();
+
+    let data = {};
+    try { data = JSON.parse(text); } catch {}
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            ("HTTP " + response.status + ": " + text)
+        );
+    }
+
+    return data;
+}
+
+
+/* =========================================================
+   LOAD
+   ========================================================= */
+
+async function loadData() {
+
+    if (loading) return;
+    loading = true;
+    setConnStatus("loading");
+
+    try {
+        const payload = await apiLoad();
+        folders = Array.isArray(payload.folders) ? payload.folders : [];
+        users   = Array.isArray(payload.users)   ? payload.users   : [];
+
+        /* Normalisasi folder */
+        folders = folders.map((f, i) => {
+            if (!f || typeof f !== "object") f = {};
+            if (!f.id) f.id = "f_" + Date.now() + "_" + i;
+            if (!f.name) f.name = "Folder " + (i + 1);
+            if (!f.createdAt) f.createdAt = new Date().toISOString();
+            return f;
+        });
+
+        /* Normalisasi user */
+        normalizeUsers();
+
+        /* Pastikan setiap user punya folderId valid */
+        const validFolderIds = new Set(folders.map(f => f.id));
+        if (validFolderIds.size === 0) {
+            /* Buat folder default jika belum ada folder sama sekali */
+            const def = {
+                id: "f_default_" + Date.now().toString(36),
+                name: "Folder 1",
+                createdAt: new Date().toISOString()
+            };
+            folders.push(def);
+            validFolderIds.add(def.id);
+        }
+        const fallbackId = folders[0].id;
+        users.forEach(u => {
+            if (!u.folderId || !validFolderIds.has(u.folderId)) {
+                u.folderId = fallbackId;
+            }
+        });
+
+        activeFolderId = null;
+        showFolderList();
+        setConnStatus("ok");
+
+    } catch (error) {
+        console.error(error);
+        folders = [];
+        users = [];
+        showFolderList();
+        setConnStatus("err");
+        showToast("Gagal memuat: " + error.message, "error");
+    } finally {
+        loading = false;
+    }
+}
+
+
+function normalizeUsers() {
+
+    users = users.map((u, index) => {
+
+        if (!u || typeof u !== "object") u = {};
+
+        if (!u.id) u.id = "u_" + Date.now() + "_" + index;
+
+        if (!u.folderId) u.folderId = "";
+
+        if (!u.email)    u.email    = "";
+        if (!u.password) u.password = "";
+        if (!u.inValue)  u.inValue  = "";
+
+        if (typeof u.followers !== "number") {
+            u.followers = Number(u.followers) || 0;
+        }
+
+        if (!u.name)     u.name = u.deviceId || "";
+        if (!u.deviceId) u.deviceId = "";
+
+        if (!u.timer || typeof u.timer !== "object") u.timer = {};
+
+        const t = u.timer;
+
+        let durationSeconds = Number(t.durationSeconds);
+        if (!durationSeconds || durationSeconds < 1) {
+            let durationDays = Number(t.durationDays) || 1;
+            durationSeconds = durationDays * SECONDS_PER_DAY;
+        }
+
+        t.durationSeconds = durationSeconds;
+        t.durationDays = durationSeconds / SECONDS_PER_DAY;
+
+        let remainingSeconds = Number(t.remainingSeconds);
+        if (!Number.isFinite(remainingSeconds) || remainingSeconds < 0) {
+            if (typeof t.remainingMs === "number" && t.remainingMs >= 0) {
+                remainingSeconds = Math.floor(t.remainingMs / 1000);
+            } else {
+                remainingSeconds = durationSeconds;
+            }
+        }
+        t.remainingSeconds = remainingSeconds;
+        t.remainingMs = remainingSeconds * 1000;
+
+        t.endAt     = t.endAt || null;
+        t.startedAt = t.startedAt || null;
+        t.status    = t.status || "idle";
+
+        if (t.status === "running" && !t.endAt) t.status = "idle";
+
+        if (t.status === "running" && t.endAt) {
+            if (new Date(t.endAt).getTime() <= Date.now()) {
+                t.status = "expired";
+                t.endAt = null;
+                t.remainingSeconds = 0;
+                t.remainingMs = 0;
+            }
+        }
+
+        return u;
+    });
+}
+
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+async function saveData(showMessage = true) {
+
+    try {
+        setConnStatus("loading");
+        await apiSave({ folders, users });
+        setConnStatus("ok");
+        if (showMessage) showToast("Data berhasil disimpan", "success");
+    } catch (error) {
+        console.error(error);
+        setConnStatus("err");
+        showToast("Gagal menyimpan: " + error.message, "error");
+    }
+}
+
+
+/* =========================================================
+   VIEW NAVIGASI
+   ========================================================= */
+
+function showFolderList() {
+    document.getElementById("folderView").style.display = "block";
+    document.getElementById("userView").style.display = "none";
+    renderFolders();
+    updateStats();
+}
+
+function openFolder(folderId) {
+    activeFolderId = folderId;
+    document.getElementById("folderView").style.display = "none";
+    document.getElementById("userView").style.display = "block";
+
+    const f = folders.find(x => x.id === folderId);
+    if (f) {
+        document.getElementById("currentFolderIcon").textContent = "📁";
+        document.getElementById("currentFolderName").textContent = f.name;
+    }
+
+    /* reset search/filter */
+    const sEl = document.getElementById("search");
+    const fEl = document.getElementById("filter");
+    if (sEl) sEl.value = "";
+    if (fEl) fEl.value = "all";
+
+    render();
+    updateStats();
+}
+
+function closeFolder() {
+    activeFolderId = null;
+    showFolderList();
+}
+
+
+/* =========================================================
+   RENDER FOLDER LIST
+   ========================================================= */
+
+function renderFolders() {
+
+    const grid = document.getElementById("foldersGrid");
+    const search = (document.getElementById("searchFolder")?.value || "")
+        .toLowerCase().trim();
+
+    const filtered = folders.filter(f =>
+        !search || f.name.toLowerCase().includes(search)
+    );
+
+    let html = filtered.map(f => {
+        const count = users.filter(u => u.folderId === f.id).length;
+        const full = count >= MAX_USERS_PER_FOLDER;
+
+        return `
+            <div class="folder-card" onclick="openFolder('${f.id}')">
+                <div class="folder-head">
+                    <span class="folder-icon">📁</span>
+                    <div style="min-width:0;flex:1">
+                        <div class="folder-name">${escapeHtml(f.name)}</div>
+                    </div>
+                    <span class="folder-count ${full ? "full" : ""}">
+                        ${count}/${MAX_USERS_PER_FOLDER}
+                    </span>
+                </div>
+                <div class="folder-body">
+                    ${count} Users${full ? " · Folder penuh" : ""}
+                </div>
+                <div class="folder-actions" onclick="event.stopPropagation()">
+                    <button class="btn" onclick="editFolder('${f.id}')">Rename</button>
+                    <button class="btn btn-danger" onclick="askDeleteFolder('${f.id}')">Hapus</button>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    /* Kartu tambah folder */
+    html += `
+        <div class="add-folder-card" onclick="openAddFolder()">
+            <div class="plus">+</div>
+            <div>Tambah Folder</div>
+        </div>
+    `;
+
+    grid.innerHTML = html;
+}
+
+
+/* =========================================================
+   RENDER USER DI DALAM FOLDER (3 KOLOM)
+   ========================================================= */
+
+function render() {
+
+    const grid = document.getElementById("grid");
+    if (!activeFolderId) { grid.innerHTML = ""; return; }
+
+    const search = (document.getElementById("search")?.value || "")
+        .toLowerCase().trim();
+    const filter = document.getElementById("filter")?.value || "all";
+
+    const folderUsers = users.filter(u => u.folderId === activeFolderId);
+
+    let filtered = folderUsers.filter(u => {
+        const status = getStatus(u);
+        const text = (
+            u.email + " " +
+            (u.name || u.deviceId || "") + " " +
+            (u.inValue || "") + " " +
+            u.id
+        ).toLowerCase();
+
+        const matchesSearch = !search || text.includes(search);
+        const matchesFilter = filter === "all" || status === filter;
+
+        return matchesSearch && matchesFilter;
+    });
+
+    filtered.sort((a, b) => {
+        const sa = getStatus(a);
+        const sb = getStatus(b);
+        if (sa === "running" && sb === "running") {
+            return getRemainingSeconds(a) - getRemainingSeconds(b);
+        }
+        if (sa === "running") return -1;
+        if (sb === "running") return 1;
+        return 0;
+    });
+
+    /* Update badge folder */
+    const f = folders.find(x => x.id === activeFolderId);
+    if (f) {
+        const count = folderUsers.length;
+        const badge = document.getElementById("currentFolderBadge");
+        badge.textContent = count + "/" + MAX_USERS_PER_FOLDER;
+        badge.classList.toggle("full", count >= MAX_USERS_PER_FOLDER);
+    }
+
+    if (!filtered.length) {
+        grid.innerHTML = `<div class="empty">Belum ada user di folder ini</div>`;
+    } else {
+        grid.innerHTML = filtered.map(renderCard).join("");
+    }
+
+    updateStats();
+}
+
+
+function renderCard(u) {
+
+    const status = getStatus(u);
+    const remainingSec = getRemainingSeconds(u);
+
+    const nameValue = u.name || u.deviceId || "-";
+    const inValue   = u.inValue || "-";
+
+    const totalSec = Number(u.timer.durationSeconds) || SECONDS_PER_DAY;
+    let pct = totalSec > 0
+        ? Math.max(0, Math.min(1, remainingSec / totalSec))
+        : 0;
+    if (status === "expired" || remainingSec <= 0) pct = 0;
+
+    const RADIUS = 30;
+    const CIRC   = 2 * Math.PI * RADIUS;
+    const offset = CIRC * (1 - pct);
+
+    let ringClass = "red";
+    if (status === "expired" || remainingSec <= 0) {
+        ringClass = "dead";
+    } else if (remainingSec > 43200) {
+        ringClass = "green";
+    } else if (remainingSec > 14400) {
+        ringClass = "orange";
+    } else {
+        ringClass = "red";
+    }
+
+    const timeStr = formatHHMMSS(remainingSec);
+    const durationLabel = formatDurationLabel(u.timer.durationDays);
+
+    const pwRevealed = revealedPasswords.has(u.id);
+    const pwDisplay  = pwRevealed
+        ? escapeHtml(u.password || "")
+        : "••••••••";
+
+    return `
+        <div class="card">
+
+            <div class="card-head">
+                <div style="min-width:0;flex:1">
+                    <div class="info-row">
+                        <span class="k">Email</span>
+                        <span class="v">: ${escapeHtml(u.email || "-")}</span>
+                        <button class="icon-btn"
+                                onclick="copyText('${escapeAttr(u.email || "")}', this)">Copy</button>
+                    </div>
+                    <div class="info-row" style="margin-top:3px">
+                        <span class="k">Password</span>
+                        <span class="v pw">: ${pwDisplay}</span>
+                        <button class="icon-btn"
+                                onclick="toggleReveal('${u.id}')">${pwRevealed ? "🙈" : "👁"}</button>
+                        <button class="icon-btn"
+                                onclick="copyText('${escapeAttr(u.password || "")}', this)">Copy</button>
+                    </div>
+                    <div class="info-row" style="margin-top:3px">
+                        <span class="k k-in">IN</span>
+                        <span class="v v-in">: ${escapeHtml(inValue)}</span>
+                    </div>
+                </div>
+                <span class="badge ${status}">${status.toUpperCase()}</span>
+            </div>
+
+            <div class="info">
+                <div class="info-row">
+                    <span class="k">Follow</span>
+                    <span class="v">: ${formatNumber(u.followers)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="k">Name</span>
+                    <span class="v">: ${escapeHtml(nameValue)}</span>
+                </div>
+            </div>
+
+            <div class="timer-ring">
+                <div class="ring-wrap">
+                    <svg viewBox="0 0 72 72">
+                        <circle class="ring-bg" cx="36" cy="36" r="${RADIUS}"></circle>
+                        <circle class="ring-fg ${ringClass}" cx="36" cy="36" r="${RADIUS}"
+                                stroke-dasharray="${CIRC.toFixed(2)}"
+                                stroke-dashoffset="${offset.toFixed(2)}"></circle>
+                    </svg>
+                    <div class="ring-text">${timeStr}</div>
+                </div>
+                <div class="timer-label">${durationLabel}</div>
+            </div>
+
+            <div class="card-actions">
+                ${
+                    status === "running"
+                    ? `<button class="btn" onclick="pauseTimer('${u.id}')">Pause</button>`
+                    : `<button class="btn" onclick="startTimer('${u.id}')">Start</button>`
+                }
+                <button class="btn" onclick="editUser('${u.id}')">Edit</button>
+                <button class="btn btn-danger" onclick="askDeleteUser('${u.id}')">Hapus</button>
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+function getStatus(u) {
+    if (!u.timer) return "idle";
+    if (u.timer.status === "running" && u.timer.endAt) {
+        if (Date.now() >= new Date(u.timer.endAt).getTime()) return "expired";
+    }
+    return u.timer.status || "idle";
+}
+
+function getRemainingSeconds(u) {
+    if (!u.timer) return 0;
+    if (u.timer.status === "running" && u.timer.endAt) {
+        const remainMs = new Date(u.timer.endAt).getTime() - Date.now();
+        return Math.max(0, Math.floor(remainMs / 1000));
+    }
+    return Math.max(0, Math.floor(Number(u.timer.remainingSeconds) || 0));
+}
+
+
+async function startTimer(id) {
+
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+
+    if (u.timer.status === "running" && u.timer.endAt) return;
+
+    let remainingSec = getRemainingSeconds(u);
+    if (remainingSec <= 0) {
+        remainingSec = Number(u.timer.durationSeconds) || SECONDS_PER_DAY;
+    }
+
+    u.timer.status = "running";
+    u.timer.remainingSeconds = remainingSec;
+    u.timer.remainingMs = remainingSec * 1000;
+    u.timer.startedAt = new Date().toISOString();
+    u.timer.endAt = new Date(Date.now() + remainingSec * 1000).toISOString();
+
+    render();
+    await saveData(false);
+}
+
+async function pauseTimer(id) {
+
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+
+    const remainingSec = getRemainingSeconds(u);
+
+    u.timer.status = "paused";
+    u.timer.remainingSeconds = remainingSec;
+    u.timer.remainingMs = remainingSec * 1000;
+    u.timer.endAt = null;
+
+    render();
+    await saveData(false);
+}
+
+
+/* =========================================================
+   TIMER LOOP
+   ========================================================= */
+
+function startTickLoop() {
+
+    if (tickInterval) return;
+
+    tickInterval = setInterval(async () => {
+
+        let changed = false;
+
+        for (const u of users) {
+            if (u.timer && u.timer.status === "running" && u.timer.endAt) {
+                const remainMs = new Date(u.timer.endAt).getTime() - Date.now();
+                if (remainMs <= 0) {
+                    u.timer.status = "expired";
+                    u.timer.remainingSeconds = 0;
+                    u.timer.remainingMs = 0;
+                    u.timer.endAt = null;
+                    changed = true;
+                } else {
+                    u.timer.remainingSeconds = Math.floor(remainMs / 1000);
+                    u.timer.remainingMs = remainMs;
+                }
+            }
+        }
+
+        if (activeFolderId) render();
+        else renderFolders();
+        updateStats();
+
+        if (changed) await saveData(false);
+
+    }, 1000);
+}
+
+
+/* =========================================================
+   FOLDER — ADD / EDIT / DELETE
+   ========================================================= */
+
+function openAddFolder() {
+    document.getElementById("folderModalTitle").textContent = "Tambah Folder";
+    document.getElementById("folderEditId").value = "";
+    document.getElementById("folderName").value =
+        "Folder " + (folders.length + 1);
+    document.getElementById("folderModal").classList.add("show");
+}
+
+function closeFolderModal() {
+    document.getElementById("folderModal").classList.remove("show");
+}
+
+function editFolder(id) {
+    const f = folders.find(x => x.id === id);
+    if (!f) return;
+    document.getElementById("folderModalTitle").textContent = "Rename Folder";
+    document.getElementById("folderEditId").value = id;
+    document.getElementById("folderName").value = f.name;
+    document.getElementById("folderModal").classList.add("show");
+}
+
+async function saveFolder() {
+
+    const id = document.getElementById("folderEditId").value;
+    const name = document.getElementById("folderName").value.trim();
+
+    if (!name) {
+        showToast("Nama folder wajib diisi", "error");
+        return;
+    }
+
+    if (id) {
+        const f = folders.find(x => x.id === id);
+        if (f) f.name = name;
+    } else {
+        folders.push({
+            id: "f_" + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+            name: name,
+            createdAt: new Date().toISOString()
+        });
+    }
+
+    closeFolderModal();
+    renderFolders();
+    updateStats();
+    await saveData();
+}
+
+function askDeleteFolder(id) {
+    const f = folders.find(x => x.id === id);
+    if (!f) return;
+
+    const count = users.filter(u => u.folderId === id).length;
+
+    document.getElementById("deleteTitle").textContent = "Hapus Folder?";
+    document.getElementById("deleteText").textContent =
+        "Folder \"" + f.name + "\" akan dihapus" +
+        (count > 0
+            ? " bersama " + count + " user di dalamnya."
+            : ".");
+    document.getElementById("deleteId").value = id;
+    document.getElementById("deleteType").value = "folder";
+    document.getElementById("deleteModal").classList.add("show");
+}
+
+async function deleteFolder(id) {
+    folders = folders.filter(f => f.id !== id);
+    users = users.filter(u => u.folderId !== id);
+
+    /* Jika tidak ada folder sama sekali, buat default */
+    if (folders.length === 0) {
+        const def = {
+            id: "f_default_" + Date.now().toString(36),
+            name: "Folder 1",
+            createdAt: new Date().toISOString()
+        };
+        folders.push(def);
+    }
+
+    if (activeFolderId === id) activeFolderId = null;
+
+    showFolderList();
+    await saveData();
+}
+
+
+/* =========================================================
+   USER — ADD / EDIT / DELETE
+   ========================================================= */
+
+function refreshFolderSelect(selectedId) {
+
+    const sel = document.getElementById("userFolder");
+    sel.innerHTML = folders.map(f => {
+        const count = users.filter(u => u.folderId === f.id).length;
+        const disabled = count >= MAX_USERS_PER_FOLDER ? "disabled" : "";
+        const label = f.name +
+            " (" + count + "/" + MAX_USERS_PER_FOLDER + ")" +
+            (count >= MAX_USERS_PER_FOLDER ? " — PENUH" : "");
+        return `<option value="${f.id}" ${disabled}>${escapeHtml(label)}</option>`;
+    }).join("");
+
+    if (selectedId) sel.value = selectedId;
+}
+
+function openAddUser() {
+
+    if (!folders.length) {
+        showToast("Belum ada folder", "error");
+        return;
+    }
+
+    const count = users.filter(u => u.folderId === activeFolderId).length;
+    if (count >= MAX_USERS_PER_FOLDER) {
+        showToast("Folder penuh (maks 6 user). Pindahkan ke folder lain atau buat folder baru.", "error");
+        return;
+    }
+
+    document.getElementById("modalTitle").textContent = "Tambah User";
+    document.getElementById("editId").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("inValue").value = "";
+    document.getElementById("followers").value = "0";
+    document.getElementById("name").value = "";
+    document.getElementById("duration").value = "1";
+
+    refreshFolderSelect(activeFolderId);
+    document.getElementById("userModal").classList.add("show");
+}
+
+function closeModal() {
+    document.getElementById("userModal").classList.remove("show");
+}
+
+function editUser(id) {
+
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+
+    document.getElementById("modalTitle").textContent = "Edit User";
+    document.getElementById("editId").value = u.id;
+    document.getElementById("email").value = u.email || "";
+    document.getElementById("password").value = u.password || "";
+    document.getElementById("inValue").value = u.inValue || "";
+    document.getElementById("followers").value = u.followers || 0;
+    document.getElementById("name").value = u.name || u.deviceId || "";
+
+    const durDays = Number(u.timer.durationDays) || 1;
+    const sel = document.getElementById("duration");
+    const opts = Array.from(sel.options).map(o => Number(o.value));
+    const closest = opts.reduce((a, b) =>
+        Math.abs(b - durDays) < Math.abs(a - durDays) ? b : a
+    );
+    sel.value = String(closest);
+
+    refreshFolderSelect(u.folderId);
+    document.getElementById("userModal").classList.add("show");
+}
+
+async function saveUser() {
+
+    const id        = document.getElementById("editId").value;
+    const targetFolderId = document.getElementById("userFolder").value;
+    const email     = document.getElementById("email").value.trim();
+    const password  = document.getElementById("password").value;
+    const inValue   = document.getElementById("inValue").value.trim();
+    const followers = Number(document.getElementById("followers").value) || 0;
+    const name      = document.getElementById("name").value.trim();
+    const durationDays = Number(document.getElementById("duration").value) || 1;
+
+    const durationSeconds = durationDays * SECONDS_PER_DAY;
+
+    if (!email) {
+        showToast("Email wajib diisi", "error");
+        return;
+    }
+
+    if (!targetFolderId) {
+        showToast("Folder tujuan wajib dipilih", "error");
+        return;
+    }
+
+    if (id) {
+
+        const u = users.find(x => x.id === id);
+        if (!u) return;
+
+        /* Cek kalau pindah folder dan folder tujuan penuh */
+        if (targetFolderId !== u.folderId) {
+            const targetCount = users.filter(x => x.folderId === targetFolderId).length;
+            if (targetCount >= MAX_USERS_PER_FOLDER) {
+                showToast("Folder tujuan penuh (maks 6 user)", "error");
+                return;
+            }
+        }
+
+        u.folderId  = targetFolderId;
+        u.email     = email;
+        u.password  = password;
+        u.inValue   = inValue;
+        u.followers = followers;
+        u.name      = name;
+        u.deviceId  = name;
+
+        if (u.timer.status !== "running") {
+            u.timer.durationDays    = durationDays;
+            u.timer.durationSeconds = durationSeconds;
+            u.timer.remainingSeconds = durationSeconds;
+            u.timer.remainingMs     = durationSeconds * 1000;
+            u.timer.endAt           = null;
+
+            if (u.timer.status === "expired") u.timer.status = "idle";
+        }
+
+    } else {
+
+        const count = users.filter(x => x.folderId === targetFolderId).length;
+        if (count >= MAX_USERS_PER_FOLDER) {
+            showToast("Folder penuh (maks 6 user)", "error");
+            return;
+        }
+
+        const now = Date.now();
+
+        users.push({
+            id: "u_" + now.toString(36) +
+                Math.random().toString(36).slice(2, 7),
+            folderId: targetFolderId,
+            email,
+            password,
+            inValue,
+            followers,
+            name,
+            deviceId: name,
+            timer: {
+                status: "idle",
+                durationDays,
+                durationSeconds,
+                remainingSeconds: durationSeconds,
+                remainingMs: durationSeconds * 1000,
+                endAt: null,
+                startedAt: null
+            }
+        });
+    }
+
+    closeModal();
+
+    /* Jika user dipindahkan ke folder lain, tetap buka folder aktif sebelumnya */
+    render();
+    renderFolders();
+    updateStats();
+    await saveData();
+}
+
+function askDeleteUser(id) {
+    document.getElementById("deleteTitle").textContent = "Hapus User?";
+    document.getElementById("deleteText").textContent =
+        "Data user akan dihapus dari JSONBin.";
+    document.getElementById("deleteId").value = id;
+    document.getElementById("deleteType").value = "user";
+    document.getElementById("deleteModal").classList.add("show");
+}
+
+function closeDelete() {
+    document.getElementById("deleteModal").classList.remove("show");
+}
+
+async function confirmDelete() {
+
+    const id = document.getElementById("deleteId").value;
+    const type = document.getElementById("deleteType").value;
+
+    closeDelete();
+
+    if (type === "folder") {
+        await deleteFolder(id);
+    } else {
+        users = users.filter(u => u.id !== id);
+        revealedPasswords.delete(id);
+        render();
+        renderFolders();
+        updateStats();
+        await saveData();
+    }
+}
+
+
+/* =========================================================
+   COPY / REVEAL
+   ========================================================= */
+
+function copyText(text, btnEl) {
+
+    const value = String(text ?? "");
+
+    const done = () => {
+        if (btnEl) {
+            const old = btnEl.textContent;
+            btnEl.textContent = "✓";
+            btnEl.disabled = true;
+            setTimeout(() => {
+                btnEl.textContent = old;
+                btnEl.disabled = false;
+            }, 1000);
+        }
+        showToast("Copied", "success");
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(done).catch(() => {
+            fallbackCopy(value, done);
+        });
+    } else {
+        fallbackCopy(value, done);
+    }
+}
+
+function fallbackCopy(value, done) {
+    try {
+        const ta = document.createElement("textarea");
+        ta.value = value;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        done();
+    } catch {
+        showToast("Gagal menyalin", "error");
+    }
+}
+
+function toggleReveal(id) {
+    if (revealedPasswords.has(id)) revealedPasswords.delete(id);
+    else revealedPasswords.add(id);
+    render();
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function updateStats() {
+
+    let running = 0, expired = 0;
+
+    users.forEach(u => {
+        const s = getStatus(u);
+        if (s === "running") running++;
+        if (s === "expired") expired++;
+    });
+
+    document.getElementById("totalFolders").textContent = folders.length;
+    document.getElementById("totalUsers").textContent   = users.length;
+    document.getElementById("runningUsers").textContent = running;
+    document.getElementById("expiredUsers").textContent = expired;
+}
+
+
+/* =========================================================
+   ICON KONEKSI
+   ========================================================= */
+
+function setConnStatus(type) {
+
+    const el = document.getElementById("connIcon");
+    if (!el) return;
+
+    el.classList.remove("ok", "err", "loading");
+    el.classList.add(type);
+
+    let title = "Connecting...";
+    let color = "#f59e0b";
+
+    if (type === "ok") {
+        title = "Connected";
+        color = "#22c55e";
+    } else if (type === "err") {
+        title = "Disconnected";
+        color = "#ef4444";
+    }
+
+    el.title = title;
+
+    const svg = el.querySelector("svg");
+    if (svg) svg.setAttribute("stroke", color);
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimeout;
+
+function showToast(message, type = "") {
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.className = "toast show " + type;
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2800);
+}
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function formatNumber(n) {
+    return Number(n || 0).toLocaleString("id-ID");
+}
+
+function formatHHMMSS(totalSeconds) {
+
+    totalSeconds = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+
+    const hours   = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return (
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0")
+    );
+}
+
+function formatDurationLabel(days) {
+    const d = Number(days) || 1;
+    if (Number.isInteger(d)) return d + " hari";
+    return d.toFixed(1) + " hari";
+}
+
+function escapeHtml(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function escapeAttr(value) {
+    return String(value ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, "&quot;");
+}
+
+
+/* =========================================================
+   START APP
+   ========================================================= */
+
+loadData();
+startTickLoop();
+
+</script>
+
+</body>
+</html>
