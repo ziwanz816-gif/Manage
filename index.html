@@ -34,7 +34,7 @@ header{
     position:relative;
 }
 .header-left{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.header-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:auto}
+.header-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:auto;position:relative}
 
 /* =========================================================
    ANIMASI TENGGORAK PIXEL HIJAU
@@ -183,7 +183,7 @@ header{
 .conn-icon.err{border-color:#7f1d1d}
 
 /* ===== TOMBOL ===== */
-.header-actions{display:flex;gap:5px;flex-wrap:wrap}
+.header-actions{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .btn{
     border:1px solid #292938;background:#15151f;color:#eee;
     padding:5px 9px;border-radius:7px;font-size:10px;
@@ -195,7 +195,7 @@ header{
 .btn-warning{color:#fbbf24;border-color:#3b2e10}
 .btn-warning:hover{background:#1d1a10}
 
-/* Tombol icon khusus (persegi) */
+/* Tombol icon khusus */
 .icon-action{
     display:inline-flex;
     align-items:center;
@@ -211,12 +211,85 @@ header{
     line-height:1;
     transition:background .2s, border-color .2s, transform .1s;
 }
-.icon-action:hover{
-    background:#1d1a10;
-    border-color:#3b2e10;
+.icon-action:hover{background:#1d1a10;border-color:#3b2e10}
+.icon-action:active{transform:scale(.92)}
+
+/* =========================================================
+   MENU TITIK 3 (⋮)
+   ========================================================= */
+.menu-wrap{position:relative;display:inline-block}
+.menu-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    padding:0;
+    border:1px solid #292938;
+    background:#15151f;
+    color:#eee;
+    border-radius:7px;
+    font-size:15px;
+    line-height:1;
+    transition:background .2s, border-color .2s, transform .1s;
 }
-.icon-action:active{
-    transform:scale(.92);
+.menu-btn:hover{background:#1d1d2a;border-color:#3a3a4a}
+.menu-btn:active{transform:scale(.92)}
+
+.menu-dropdown{
+    display:none;
+    position:absolute;
+    top:34px;
+    right:0;
+    min-width:220px;
+    background:#13131c;
+    border:1px solid #2a2a38;
+    border-radius:9px;
+    box-shadow:0 12px 40px rgba(0,0,0,.7);
+    padding:6px;
+    z-index:50;
+}
+.menu-dropdown.show{display:block}
+
+.menu-section{
+    padding:4px 6px 6px;
+    font-size:9px;
+    color:#70707e;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+    font-weight:700;
+}
+.menu-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#e5e5ea;
+    padding:8px 9px;
+    border-radius:6px;
+    font-size:11px;
+    text-align:left;
+    transition:background .15s, color .15s;
+}
+.menu-item:hover{background:#1d1d2a;color:#fff}
+.menu-item.active{
+    background:#1e1b33;
+    color:#c4b5fd;
+    font-weight:700;
+}
+.menu-item .flag{font-size:15px;line-height:1}
+.menu-item .check{
+    margin-left:auto;
+    color:#22c55e;
+    font-size:11px;
+    font-weight:700;
+}
+.menu-divider{
+    height:1px;
+    background:#232330;
+    margin:4px 2px;
 }
 
 /* ===== STATS ===== */
@@ -242,7 +315,7 @@ header{
 .input:focus{border-color:#7c3aed}
 
 /* =========================================================
-   HALAMAN UTAMA — DAFTAR FOLDER (3 KOLOM)
+   FOLDER LIST (3 KOLOM)
    ========================================================= */
 .folders-grid{
     display:grid;
@@ -269,7 +342,6 @@ header{
 }
 .folder-card:active{transform:scale(.985)}
 
-/* Status dot di pojok kanan atas folder */
 .folder-status{
     position:absolute;
     top:10px;
@@ -309,13 +381,9 @@ header{
     align-items:flex-start;
     gap:8px;
     min-width:0;
-    padding-right:14px; /* ruang untuk status dot */
+    padding-right:14px;
 }
-.folder-icon{
-    font-size:20px;
-    line-height:1;
-    flex-shrink:0;
-}
+.folder-icon{font-size:20px;line-height:1;flex-shrink:0}
 .folder-name{
     font-weight:700;
     font-size:14px;
@@ -330,18 +398,46 @@ header{
     font-size:10px;
     color:#8d8d9b;
     line-height:1.4;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
 }
-.folder-actions{
+
+/* ===== TAG SERVER DI FOLDER ===== */
+.folder-server-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+    font-size:8px;
+    padding:1px 5px;
+    border-radius:999px;
+    background:#1a1a24;
+    color:#a1a1aa;
+    font-weight:700;
+    letter-spacing:.3px;
+}
+.folder-server-tag.en{background:#0c1a2e;color:#60a5fa}
+.folder-server-tag.id{background:#1a0f0a;color:#fb923c}
+
+/* ===== ACTION FOLDER (3 TOMBOL) ===== */
+.folder-actions-3{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:5px;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:4px;
     margin-top:auto;
 }
-.folder-actions .btn{
-    padding:5px 4px;
+.folder-actions-3 .btn{
+    padding:5px 3px;
     font-size:9px;
     text-align:center;
 }
+.btn-move{
+    color:#67e8f9;
+    border-color:#164e63;
+    background:#0a1a20;
+}
+.btn-move:hover{background:#0e2430;border-color:#0891b2}
 
 .add-folder-card{
     background:#0c0c13;
@@ -365,13 +461,37 @@ header{
     color:#c4b5fd;
     background:#11111a;
 }
-.add-folder-card .plus{
-    font-size:24px;
+.add-folder-card .plus{font-size:24px;line-height:1}
+
+/* ===== EMPTY STATE ===== */
+.empty-folder-state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px 20px;
+    background:#0c0c13;
+    border:1px dashed #2a2a38;
+    border-radius:10px;
+    color:#a1a1aa;
+}
+.empty-folder-state .icon{
+    font-size:38px;
+    margin-bottom:10px;
     line-height:1;
+}
+.empty-folder-state .title{
+    font-size:13px;
+    color:#e5e5ea;
+    font-weight:600;
+    margin-bottom:6px;
+}
+.empty-folder-state .desc{
+    font-size:11px;
+    color:#8d8d9b;
+    margin-bottom:14px;
 }
 
 /* =========================================================
-   HALAMAN FOLDER — USER CARDS (3 KOLOM)
+   USER CARDS (3 KOLOM)
    ========================================================= */
 .folder-view-bar{
     display:flex;
@@ -419,14 +539,12 @@ header{
     flex-wrap:wrap;
 }
 
-/* ===== GRID USER — 3 KOLOM ===== */
 .grid{
     display:grid;
     grid-template-columns:repeat(3, minmax(0, 1fr));
     gap:8px;
 }
 
-/* ===== CARD USER ===== */
 .card{
     background:#11111a;
     border:1px solid #252532;
@@ -501,7 +619,6 @@ header{
 }
 .info-row .icon-btn:hover{background:#1d1d2a}
 
-/* ===== TIMER RING ===== */
 .timer-ring{
     display:flex;
     flex-direction:column;
@@ -616,7 +733,6 @@ header{
 
 code{color:#c4b5fd}
 
-/* ===== RESPONSIVE ===== */
 @media(max-width:900px){
     .folders-grid{grid-template-columns:repeat(3,1fr);gap:8px}
     .grid{grid-template-columns:repeat(3,1fr);gap:6px}
@@ -650,6 +766,7 @@ code{color:#c4b5fd}
     .folder-status{width:8px;height:8px;top:8px;right:8px}
     .skull-anim{width:24px;height:26px}
     .skull-anim .p{width:1.9px;height:1.9px}
+    .folder-actions-3 .btn{font-size:7.5px;padding:4px 2px}
 }
 </style>
 </head>
@@ -659,7 +776,6 @@ code{color:#c4b5fd}
 <div class="container">
 
 <header>
-    <!-- KIRI ATAS: ANIMASI TENGGORAK PIXEL HIJAU -->
     <div class="header-left">
         <div class="skull-anim" aria-hidden="true">
             <span class="p" data-r="0" data-c="4"></span>
@@ -757,7 +873,32 @@ code{color:#c4b5fd}
         </div>
         <div class="header-actions">
             <button class="btn" onclick="loadData()" title="Refresh">↻ Refresh</button>
-            <button class="icon-action" onclick="askResetAllTimers()" title="Reset semua jam">🔄</button>
+
+            <div class="menu-wrap">
+                <button class="menu-btn" onclick="toggleMenu(event)" title="Menu">⋮</button>
+                <div id="menuDropdown" class="menu-dropdown">
+
+                    <div class="menu-section">Server</div>
+                    <button class="menu-item" id="menuSrvID" onclick="setServer('id')">
+                        <span class="flag">🇮🇩</span>
+                        <span>Server Indonesia</span>
+                        <span class="check" id="checkID" style="display:none">✓</span>
+                    </button>
+                    <button class="menu-item" id="menuSrvUS" onclick="setServer('en')">
+                        <span class="flag">🇺🇸</span>
+                        <span>Server US</span>
+                        <span class="check" id="checkUS" style="display:none">✓</span>
+                    </button>
+
+                    <div class="menu-divider"></div>
+
+                    <div class="menu-section">Tools</div>
+                    <button class="menu-item" onclick="menuReset()">
+                        <span class="flag">🔄</span>
+                        <span>Reset Jam</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -925,11 +1066,26 @@ code{color:#c4b5fd}
     <div class="modal">
         <h2 id="resetTitle">Reset Semua Jam?</h2>
         <p id="resetText" style="color:#9999a8;font-size:11px">
-            Semua timer user di semua folder akan direset ke durasi awal.
+            Semua timer user di server ini akan direset ke durasi awal.
         </p>
         <div class="modal-actions">
             <button class="btn" onclick="closeReset()">Batal</button>
             <button class="btn btn-warning" onclick="confirmReset()">Reset</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= MODAL PINDAH FOLDER KE SERVER LAIN ================= -->
+<div id="moveFolderModal" class="overlay">
+    <div class="modal">
+        <h2 id="moveFolderTitle">Pindahkan Folder?</h2>
+        <p id="moveFolderText" style="color:#9999a8;font-size:11px">
+            Folder akan dipindahkan ke server lain.
+        </p>
+        <div class="modal-actions">
+            <button class="btn" onclick="closeMoveFolder()">Batal</button>
+            <button class="btn btn-primary" onclick="confirmMoveFolder()">Pindahkan</button>
         </div>
     </div>
 </div>
@@ -945,8 +1101,9 @@ code{color:#c4b5fd}
 
 const SECONDS_PER_DAY = 86400;
 const MAX_USERS_PER_FOLDER = 6;
-/* Ambang "warning" — jika user running sisa <= 4 jam dianggap warning */
 const WARNING_THRESHOLD_SECONDS = 4 * 3600;
+
+const SERVER_KEY = "udm_active_server";
 
 
 /* =========================================================
@@ -964,8 +1121,16 @@ const JSONBIN_BASE = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
 
 let folders = [];
 let users = [];
-
 let activeFolderId = null;
+
+/* Baca server aktif dengan aman */
+let activeServer = "id";
+try {
+    const saved = localStorage.getItem(SERVER_KEY);
+    if (saved === "en" || saved === "id") activeServer = saved;
+} catch (e) {
+    activeServer = "id";
+}
 
 let loading = false;
 const revealedPasswords = new Set();
@@ -1018,6 +1183,7 @@ async function apiLoad() {
         const defaultFolder = {
             id: "f_default_" + Date.now().toString(36),
             name: "Folder 1",
+            lang: "id",
             createdAt: new Date().toISOString()
         };
         const migrated = data.map(u => ({
@@ -1031,6 +1197,7 @@ async function apiLoad() {
         const defaultFolder = {
             id: "f_default_" + Date.now().toString(36),
             name: "Folder 1",
+            lang: "id",
             createdAt: new Date().toISOString()
         };
         const migrated = data.users.map(u => ({
@@ -1093,25 +1260,29 @@ async function loadData() {
         folders = Array.isArray(payload.folders) ? payload.folders : [];
         users   = Array.isArray(payload.users)   ? payload.users   : [];
 
+        /* Normalisasi folder — pastikan semua punya lang */
         folders = folders.map((f, i) => {
             if (!f || typeof f !== "object") f = {};
             if (!f.id) f.id = "f_" + Date.now() + "_" + i;
             if (!f.name) f.name = "Folder " + (i + 1);
+            /* Semua yang bukan 'en' dianggap 'id' */
+            f.lang = (f.lang === "en") ? "en" : "id";
             if (!f.createdAt) f.createdAt = new Date().toISOString();
             return f;
         });
 
         normalizeUsers();
 
+        /* Pastikan semua user punya folderId valid */
         const validFolderIds = new Set(folders.map(f => f.id));
         if (validFolderIds.size === 0) {
-            const def = {
+            folders.push({
                 id: "f_default_" + Date.now().toString(36),
                 name: "Folder 1",
+                lang: "id",
                 createdAt: new Date().toISOString()
-            };
-            folders.push(def);
-            validFolderIds.add(def.id);
+            });
+            validFolderIds.add(folders[0].id);
         }
         const fallbackId = folders[0].id;
         users.forEach(u => {
@@ -1123,6 +1294,8 @@ async function loadData() {
         if (activeFolderId && !folders.find(f => f.id === activeFolderId)) {
             activeFolderId = null;
         }
+
+        updateServerMenu();
 
         if (activeFolderId) {
             document.getElementById("folderView").style.display = "none";
@@ -1160,7 +1333,6 @@ function normalizeUsers() {
         if (!u || typeof u !== "object") u = {};
 
         if (!u.id) u.id = "u_" + Date.now() + "_" + index;
-
         if (!u.folderId) u.folderId = "";
 
         if (!u.email)    u.email    = "";
@@ -1238,6 +1410,86 @@ async function saveData(showMessage = true) {
 
 
 /* =========================================================
+   MENU TITIK 3
+   ========================================================= */
+
+function toggleMenu(ev) {
+    if (ev) ev.stopPropagation();
+    const el = document.getElementById("menuDropdown");
+    if (!el) return;
+    const open = el.classList.contains("show");
+    if (open) {
+        el.classList.remove("show");
+    } else {
+        el.classList.add("show");
+        updateServerMenu();
+    }
+}
+
+function closeMenu() {
+    const el = document.getElementById("menuDropdown");
+    if (el) el.classList.remove("show");
+}
+
+document.addEventListener("click", (e) => {
+    const wrap = document.querySelector(".menu-wrap");
+    if (wrap && !wrap.contains(e.target)) closeMenu();
+});
+
+
+function updateServerMenu() {
+    const chkID = document.getElementById("checkID");
+    const chkUS = document.getElementById("checkUS");
+    const itID  = document.getElementById("menuSrvID");
+    const itUS  = document.getElementById("menuSrvUS");
+
+    if (!chkID || !chkUS || !itID || !itUS) return;
+
+    if (activeServer === "id") {
+        chkID.style.display = "";
+        chkUS.style.display = "none";
+        itID.classList.add("active");
+        itUS.classList.remove("active");
+    } else {
+        chkID.style.display = "none";
+        chkUS.style.display = "";
+        itUS.classList.add("active");
+        itID.classList.remove("active");
+    }
+}
+
+
+/* =========================================================
+   GANTI SERVER
+   ========================================================= */
+
+function setServer(server) {
+
+    if (server !== "id" && server !== "en") server = "id";
+
+    try { closeMenu(); } catch (e) {}
+
+    if (server === activeServer) return;
+
+    activeServer = server;
+
+    try { localStorage.setItem(SERVER_KEY, server); } catch (e) {}
+
+    try { updateServerMenu(); } catch (e) {}
+
+    activeFolderId = null;
+    showFolderList();
+
+    showToast(
+        server === "en"
+            ? "Server US aktif 🇺🇸"
+            : "Server Indonesia aktif 🇮🇩",
+        "success"
+    );
+}
+
+
+/* =========================================================
    VIEW NAVIGASI
    ========================================================= */
 
@@ -1275,8 +1527,7 @@ function closeFolder() {
 
 
 /* =========================================================
-   STATUS FOLDER — untuk indikator status dot
-   Prioritas: expired (merah) > warning (orange) > running (hijau) > idle (abu)
+   STATUS FOLDER
    ========================================================= */
 
 function getFolderStatus(folderId) {
@@ -1312,52 +1563,47 @@ function getFolderStatus(folderId) {
     });
 
     if (hasExpired) {
-        return {
-            cls: "expired",
-            label: "Expired",
-            text: expiredCount + " user expired"
-        };
+        return { cls: "expired", label: "Expired", text: expiredCount + " user expired" };
     }
     if (hasWarning) {
-        return {
-            cls: "warning",
-            label: "Warning",
-            text: warningCount + " user hampir habis"
-        };
+        return { cls: "warning", label: "Warning", text: warningCount + " user hampir habis" };
     }
     if (hasRunning) {
-        return {
-            cls: "running",
-            label: "Running",
-            text: runningCount + " user running"
-        };
+        return { cls: "running", label: "Running", text: runningCount + " user running" };
     }
 
-    return {
-        cls: "",
-        label: "Idle",
-        text: "Tidak ada user running"
-    };
+    return { cls: "", label: "Idle", text: "Tidak ada user running" };
 }
 
 
 /* =========================================================
-   RENDER FOLDER LIST
+   RENDER FOLDER LIST — filter by server + pesan kosong
    ========================================================= */
 
 function renderFolders() {
 
     const grid = document.getElementById("foldersGrid");
+    if (!grid) return;
+
     const search = (document.getElementById("searchFolder")?.value || "")
         .toLowerCase().trim();
 
-    const filtered = folders.filter(f =>
-        !search || f.name.toLowerCase().includes(search)
-    );
+    /* Filter: hanya folder di server aktif
+       (semua folder tanpa lang dianggap 'id' — sudah dinormalkan di loadData) */
+    const list = folders.filter(f => {
+        const folderLang = (f.lang === "en") ? "en" : "id";
+        if (folderLang !== activeServer) return false;
+        if (search && !f.name.toLowerCase().includes(search)) return false;
+        return true;
+    });
 
-    let html = filtered.map(f => {
+    let html = list.map(f => {
         const count = users.filter(u => u.folderId === f.id).length;
         const status = getFolderStatus(f.id);
+        const folderLang = (f.lang === "en") ? "en" : "id";
+        const serverTag = folderLang === "en"
+            ? `<span class="folder-server-tag en">🇺🇸 US</span>`
+            : `<span class="folder-server-tag id">🇮🇩 ID</span>`;
 
         return `
             <div class="folder-card" onclick="openFolder('${f.id}')">
@@ -1369,19 +1615,53 @@ function renderFolders() {
                     <span class="folder-icon">📁</span>
                     <div style="min-width:0;flex:1">
                         <div class="folder-name">${escapeHtml(f.name)}</div>
+                        <div style="margin-top:4px">${serverTag}</div>
                     </div>
                 </div>
                 <div class="folder-body">
-                    ${count} Users
+                    <span>${count} Users</span>
                 </div>
-                <div class="folder-actions" onclick="event.stopPropagation()">
+                <div class="folder-actions-3" onclick="event.stopPropagation()">
                     <button class="btn" onclick="editFolder('${f.id}')">Rename</button>
+                    <button class="btn btn-move" onclick="askMoveFolder('${f.id}')" title="Pindah server">⇄ Pindah</button>
                     <button class="btn btn-danger" onclick="askDeleteFolder('${f.id}')">Hapus</button>
                 </div>
             </div>
         `;
     }).join("");
 
+    /* Kalau kosong → tampilkan pesan + tombol pindah server */
+    if (!html) {
+        const otherServer = (activeServer === "id") ? "en" : "id";
+        const otherFlag   = (otherServer === "en") ? "🇺🇸" : "🇮🇩";
+        const otherName   = (otherServer === "en") ? "Server US" : "Server Indonesia";
+        const curFlag     = (activeServer === "en") ? "🇺🇸" : "🇮🇩";
+        const curName     = (activeServer === "en") ? "Server US" : "Server Indonesia";
+
+        html = `
+            <div class="empty-folder-state">
+                <div class="icon">📭</div>
+                <div class="title">
+                    Belum ada folder di ${curFlag} ${curName}
+                </div>
+                <div class="desc">
+                    ${search
+                        ? "Folder dengan nama itu tidak ditemukan."
+                        : "Tambahkan folder baru atau pindah ke server lain."}
+                </div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+                    <button class="btn btn-primary" onclick="openAddFolder()">
+                        + Tambah Folder
+                    </button>
+                    <button class="btn" onclick="setServer('${otherServer}')">
+                        Pindah ke ${otherFlag} ${otherName}
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    /* Kartu tambah folder selalu ada */
     html += `
         <div class="add-folder-card" onclick="openAddFolder()">
             <div class="plus">+</div>
@@ -1394,7 +1674,7 @@ function renderFolders() {
 
 
 /* =========================================================
-   RENDER USER DI DALAM FOLDER (3 KOLOM)
+   RENDER USER DI DALAM FOLDER
    ========================================================= */
 
 function render() {
@@ -1438,8 +1718,10 @@ function render() {
     if (f) {
         const count = folderUsers.length;
         const badge = document.getElementById("currentFolderBadge");
-        badge.textContent = count + "/" + MAX_USERS_PER_FOLDER;
-        badge.classList.toggle("full", count >= MAX_USERS_PER_FOLDER);
+        if (badge) {
+            badge.textContent = count + "/" + MAX_USERS_PER_FOLDER;
+            badge.classList.toggle("full", count >= MAX_USERS_PER_FOLDER);
+        }
     }
 
     if (!filtered.length) {
@@ -1655,20 +1937,32 @@ function startTickLoop() {
 
 
 /* =========================================================
-   RESET JAM — SEMUA USER DI SEMUA FOLDER (GLOBAL)
+   RESET JAM — hanya server aktif
    ========================================================= */
+
+function menuReset() {
+    closeMenu();
+    askResetAllTimers();
+}
 
 function askResetAllTimers() {
 
-    if (!users.length) {
-        showToast("Belum ada user untuk direset", "error");
+    const activeFolderIds = new Set(
+        folders.filter(f => (f.lang === "en" ? "en" : "id") === activeServer)
+               .map(f => f.id)
+    );
+    const target = users.filter(u => activeFolderIds.has(u.folderId));
+
+    if (!target.length) {
+        showToast("Belum ada user di server ini", "error");
         return;
     }
 
     document.getElementById("resetTitle").textContent = "Reset Semua Jam?";
     document.getElementById("resetText").textContent =
-        "Semua timer (" + users.length + " user) di seluruh folder " +
-        "akan direset ke durasi awal (idle). Data user lain tidak dihapus.";
+        "Semua timer (" + target.length + " user) di server " +
+        (activeServer === "en" ? "US 🇺🇸" : "Indonesia 🇮🇩") +
+        " akan direset ke durasi awal (idle). Data user lain tidak dihapus.";
 
     document.getElementById("resetModal").classList.add("show");
 }
@@ -1679,12 +1973,19 @@ function closeReset() {
 
 async function confirmReset() {
 
-    if (!users.length) {
+    const activeFolderIds = new Set(
+        folders.filter(f => (f.lang === "en" ? "en" : "id") === activeServer)
+               .map(f => f.id)
+    );
+
+    const target = users.filter(u => activeFolderIds.has(u.folderId));
+
+    if (!target.length) {
         closeReset();
         return;
     }
 
-    users.forEach(u => {
+    target.forEach(u => {
         const durationSeconds =
             Number(u.timer?.durationSeconds) ||
             (Number(u.timer?.durationDays) || 1) * SECONDS_PER_DAY;
@@ -1705,7 +2006,7 @@ async function confirmReset() {
     else renderFolders();
     updateStats();
 
-    showToast("Semua timer direset ke durasi awal", "success");
+    showToast("Timer di server ini direset ke durasi awal", "success");
     await saveData(false);
 }
 
@@ -1715,10 +2016,14 @@ async function confirmReset() {
    ========================================================= */
 
 function openAddFolder() {
+
     document.getElementById("folderModalTitle").textContent = "Tambah Folder";
     document.getElementById("folderEditId").value = "";
     document.getElementById("folderName").value =
-        "Folder " + (folders.length + 1);
+        "Folder " + (folders.filter(f =>
+            (f.lang === "en" ? "en" : "id") === activeServer
+        ).length + 1);
+
     document.getElementById("folderModal").classList.add("show");
 }
 
@@ -1747,11 +2052,16 @@ async function saveFolder() {
 
     if (id) {
         const f = folders.find(x => x.id === id);
-        if (f) f.name = name;
+        if (f) {
+            f.name = name;
+            /* Pastikan tetap punya lang yang benar */
+            f.lang = (f.lang === "en") ? "en" : "id";
+        }
     } else {
         folders.push({
             id: "f_" + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
             name: name,
+            lang: activeServer,
             createdAt: new Date().toISOString()
         });
     }
@@ -1783,19 +2093,86 @@ async function deleteFolder(id) {
     folders = folders.filter(f => f.id !== id);
     users = users.filter(u => u.folderId !== id);
 
-    if (folders.length === 0) {
-        const def = {
-            id: "f_default_" + Date.now().toString(36),
-            name: "Folder 1",
-            createdAt: new Date().toISOString()
-        };
-        folders.push(def);
-    }
-
     if (activeFolderId === id) activeFolderId = null;
 
     showFolderList();
     await saveData();
+}
+
+
+/* =========================================================
+   PINDAH FOLDER KE SERVER LAIN
+   ========================================================= */
+
+let pendingMoveFolderId = null;
+
+function askMoveFolder(id) {
+
+    const f = folders.find(x => x.id === id);
+    if (!f) return;
+
+    const currentLang = (f.lang === "en") ? "en" : "id";
+    const targetLang  = (currentLang === "en") ? "id" : "en";
+    const targetName  = (targetLang === "en") ? "Server US 🇺🇸" : "Server Indonesia 🇮🇩";
+    const currentName = (currentLang === "en") ? "Server US 🇺🇸" : "Server Indonesia 🇮🇩";
+
+    /* Cek apakah sudah ada folder dengan nama sama di server tujuan */
+    const duplicate = folders.find(x =>
+        x.id !== id &&
+        (x.lang === "en" ? "en" : "id") === targetLang &&
+        x.name.trim().toLowerCase() === f.name.trim().toLowerCase()
+    );
+
+    if (duplicate) {
+        showToast("Sudah ada folder dengan nama sama di " + targetName, "error");
+        return;
+    }
+
+    const count = users.filter(u => u.folderId === id).length;
+
+    pendingMoveFolderId = id;
+
+    document.getElementById("moveFolderTitle").textContent = "Pindahkan Folder?";
+    document.getElementById("moveFolderText").innerHTML =
+        "Folder <b>" + escapeHtml(f.name) + "</b> (" + count + " user) akan dipindahkan dari " +
+        currentName + " ke <b>" + targetName + "</b>.<br><br>" +
+        "Semua user di dalamnya akan ikut pindah. Timer tetap berjalan normal.";
+
+    document.getElementById("moveFolderModal").classList.add("show");
+}
+
+function closeMoveFolder() {
+    pendingMoveFolderId = null;
+    document.getElementById("moveFolderModal").classList.remove("show");
+}
+
+async function confirmMoveFolder() {
+
+    const id = pendingMoveFolderId;
+    if (!id) { closeMoveFolder(); return; }
+
+    const f = folders.find(x => x.id === id);
+    if (!f) { closeMoveFolder(); return; }
+
+    const currentLang = (f.lang === "en") ? "en" : "id";
+    const targetLang  = (currentLang === "en") ? "id" : "en";
+
+    f.lang = targetLang;
+
+    closeMoveFolder();
+
+    if (activeFolderId === id) {
+        /* Kalau folder yang sedang dibuka dipindah, kembali ke daftar folder */
+        activeFolderId = null;
+    }
+
+    renderFolders();
+    updateStats();
+
+    const targetName = (targetLang === "en") ? "Server US 🇺🇸" : "Server Indonesia 🇮🇩";
+    showToast("Folder dipindahkan ke " + targetName, "success");
+
+    await saveData(false);
 }
 
 
@@ -1806,7 +2183,19 @@ async function deleteFolder(id) {
 function refreshFolderSelect(selectedId) {
 
     const sel = document.getElementById("userFolder");
-    sel.innerHTML = folders.map(f => {
+    if (!sel) return;
+
+    /* Hanya folder dengan server aktif */
+    const list = folders.filter(f =>
+        (f.lang === "en" ? "en" : "id") === activeServer
+    );
+
+    if (list.length === 0) {
+        sel.innerHTML = `<option value="">(Belum ada folder di server ini)</option>`;
+        return;
+    }
+
+    sel.innerHTML = list.map(f => {
         const count = users.filter(u => u.folderId === f.id).length;
         const disabled = count >= MAX_USERS_PER_FOLDER ? "disabled" : "";
         const label = f.name +
@@ -1827,7 +2216,7 @@ function openAddUser() {
 
     const count = users.filter(u => u.folderId === activeFolderId).length;
     if (count >= MAX_USERS_PER_FOLDER) {
-        showToast("Folder penuh (maks 6 user). Pindahkan ke folder lain atau buat folder baru.", "error");
+        showToast("Folder penuh (maks 6 user).", "error");
         return;
     }
 
@@ -2053,21 +2442,26 @@ function toggleReveal(id) {
 
 
 /* =========================================================
-   STATS
+   STATS — hanya server aktif
    ========================================================= */
 
 function updateStats() {
 
-    let running = 0, expired = 0;
+    const activeFolderIds = new Set(
+        folders.filter(f => (f.lang === "en" ? "en" : "id") === activeServer)
+               .map(f => f.id)
+    );
+    const target = users.filter(u => activeFolderIds.has(u.folderId));
 
-    users.forEach(u => {
+    let running = 0, expired = 0;
+    target.forEach(u => {
         const s = getStatus(u);
         if (s === "running") running++;
         if (s === "expired") expired++;
     });
 
-    document.getElementById("totalFolders").textContent = folders.length;
-    document.getElementById("totalUsers").textContent   = users.length;
+    document.getElementById("totalFolders").textContent = activeFolderIds.size;
+    document.getElementById("totalUsers").textContent   = target.length;
     document.getElementById("runningUsers").textContent = running;
     document.getElementById("expiredUsers").textContent = expired;
 }
@@ -2112,6 +2506,7 @@ let toastTimeout;
 function showToast(message, type = "") {
 
     const toast = document.getElementById("toast");
+    if (!toast) return;
 
     toast.textContent = message;
     toast.className = "toast show " + type;
@@ -2171,9 +2566,10 @@ function escapeAttr(value) {
 
 
 /* =========================================================
-   START APP
+   START
    ========================================================= */
 
+try { updateServerMenu(); } catch (e) {}
 loadData();
 startTickLoop();
 
