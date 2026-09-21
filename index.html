@@ -33,40 +33,21 @@ header{
     flex-wrap:wrap;
     position:relative;
 }
-
-.header-left{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    flex-shrink:0;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    flex-wrap:wrap;
-    margin-left:auto;
-}
+.header-left{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.header-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:auto}
 
 /* =========================================================
    ANIMASI TENGGORAK PIXEL HIJAU
    ========================================================= */
 .skull-anim{
-    position:relative;
-    width:34px;
-    height:36px;
-    flex-shrink:0;
+    position:relative;width:34px;height:36px;flex-shrink:0;
     image-rendering:pixelated;
     filter:drop-shadow(0 0 5px rgba(34,197,94,.7));
     animation:skullFloat 2.6s ease-in-out infinite;
 }
 .skull-anim .p{
-    position:absolute;
-    width:2.6px;
-    height:2.6px;
-    background:#22c55e;
-    box-shadow:0 0 3px rgba(34,197,94,.6);
+    position:absolute;width:2.6px;height:2.6px;
+    background:#22c55e;box-shadow:0 0 3px rgba(34,197,94,.6);
 }
 .skull-anim .p[data-r="0"][data-c="4"]{left:10.4px;top:0}
 .skull-anim .p[data-r="0"][data-c="5"]{left:13px;top:0}
@@ -211,7 +192,32 @@ header{
 .btn-primary{border:0;background:#7c3aed;color:#fff}
 .btn-primary:hover{background:#6d28d9}
 .btn-danger{color:#ff7373}
-.btn-block{width:100%;padding:10px;font-size:12px}
+.btn-warning{color:#fbbf24;border-color:#3b2e10}
+.btn-warning:hover{background:#1d1a10}
+
+/* Tombol icon khusus (persegi) */
+.icon-action{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    padding:0;
+    border:1px solid #292938;
+    background:#15151f;
+    color:#fbbf24;
+    border-radius:7px;
+    font-size:13px;
+    line-height:1;
+    transition:background .2s, border-color .2s, transform .1s;
+}
+.icon-action:hover{
+    background:#1d1a10;
+    border-color:#3b2e10;
+}
+.icon-action:active{
+    transform:scale(.92);
+}
 
 /* ===== STATS ===== */
 .stats{
@@ -245,6 +251,7 @@ header{
 }
 
 .folder-card{
+    position:relative;
     background:#11111a;
     border:1px solid #252532;
     border-radius:10px;
@@ -262,12 +269,47 @@ header{
 }
 .folder-card:active{transform:scale(.985)}
 
+/* Status dot di pojok kanan atas folder */
+.folder-status{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#3a3a4a;
+    box-shadow:0 0 0 2px rgba(0,0,0,.35);
+    transition:background .3s, box-shadow .3s;
+    z-index:2;
+}
+.folder-status.running{
+    background:#22c55e;
+    box-shadow:0 0 0 2px rgba(0,0,0,.35),
+                0 0 6px rgba(34,197,94,.85);
+}
+.folder-status.expired{
+    background:#ef4444;
+    box-shadow:0 0 0 2px rgba(0,0,0,.35),
+                0 0 6px rgba(239,68,68,.85);
+}
+.folder-status.warning{
+    background:#f59e0b;
+    box-shadow:0 0 0 2px rgba(0,0,0,.35),
+                0 0 6px rgba(245,158,11,.85);
+    animation:folderWarnBlink 1.2s ease-in-out infinite;
+}
+@keyframes folderWarnBlink{
+    0%,100%{opacity:1; transform:scale(1)}
+    50%    {opacity:.35; transform:scale(.85)}
+}
+
 .folder-head{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     gap:8px;
     min-width:0;
+    padding-right:14px; /* ruang untuk status dot */
 }
 .folder-icon{
     font-size:20px;
@@ -282,20 +324,6 @@ header{
     white-space:nowrap;
     min-width:0;
     flex:1;
-}
-.folder-count{
-    font-size:10px;
-    color:#8d8d9b;
-    white-space:nowrap;
-    background:#0c0c13;
-    border:1px solid #1e1e29;
-    padding:3px 7px;
-    border-radius:999px;
-    flex-shrink:0;
-}
-.folder-count.full{
-    color:#fbbf24;
-    border-color:#3b2e10;
 }
 
 .folder-body{
@@ -619,7 +647,7 @@ code{color:#c4b5fd}
     .folder-card{padding:9px}
     .folder-icon{font-size:16px}
     .folder-name{font-size:11px}
-    .folder-count{font-size:9px;padding:2px 5px}
+    .folder-status{width:8px;height:8px;top:8px;right:8px}
     .skull-anim{width:24px;height:26px}
     .skull-anim .p{width:1.9px;height:1.9px}
 }
@@ -728,7 +756,8 @@ code{color:#c4b5fd}
             </svg>
         </div>
         <div class="header-actions">
-            <button class="btn" onclick="loadData()">↻ Refresh</button>
+            <button class="btn" onclick="loadData()" title="Refresh">↻ Refresh</button>
+            <button class="icon-action" onclick="askResetAllTimers()" title="Reset semua jam">🔄</button>
         </div>
     </div>
 </header>
@@ -891,6 +920,21 @@ code{color:#c4b5fd}
 </div>
 
 
+<!-- ================= MODAL RESET JAM ================= -->
+<div id="resetModal" class="overlay">
+    <div class="modal">
+        <h2 id="resetTitle">Reset Semua Jam?</h2>
+        <p id="resetText" style="color:#9999a8;font-size:11px">
+            Semua timer user di semua folder akan direset ke durasi awal.
+        </p>
+        <div class="modal-actions">
+            <button class="btn" onclick="closeReset()">Batal</button>
+            <button class="btn btn-warning" onclick="confirmReset()">Reset</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="toast" class="toast"></div>
 
 
@@ -901,6 +945,8 @@ code{color:#c4b5fd}
 
 const SECONDS_PER_DAY = 86400;
 const MAX_USERS_PER_FOLDER = 6;
+/* Ambang "warning" — jika user running sisa <= 4 jam dianggap warning */
+const WARNING_THRESHOLD_SECONDS = 4 * 3600;
 
 
 /* =========================================================
@@ -916,19 +962,6 @@ const JSONBIN_BASE = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
    STATE
    ========================================================= */
 
-/* Struktur data baru:
-   {
-     folders: [
-        { id, name, createdAt },
-        ...
-     ],
-     users: [
-        { id, folderId, email, password, inValue, followers,
-          name, deviceId, timer:{...} },
-        ...
-     ]
-   }
-*/
 let folders = [];
 let users = [];
 
@@ -950,8 +983,6 @@ function jsonbinHeaders() {
     };
 }
 
-
-/* Load mendukung format lama (array users saja) & format baru */
 async function apiLoad() {
 
     if (!JSONBIN_BIN_ID || !JSONBIN_MASTER_KEY ||
@@ -978,13 +1009,11 @@ async function apiLoad() {
         throw new Error(data.message || ("HTTP " + response.status));
     }
 
-    /* Format baru: { folders:[], users:[] } */
     if (data && typeof data === "object" &&
         Array.isArray(data.users) && Array.isArray(data.folders)) {
         return { folders: data.folders, users: data.users };
     }
 
-    /* Format lama: array users → migrasi otomatis ke folder default */
     if (Array.isArray(data)) {
         const defaultFolder = {
             id: "f_default_" + Date.now().toString(36),
@@ -998,7 +1027,6 @@ async function apiLoad() {
         return { folders: [defaultFolder], users: migrated };
     }
 
-    /* Format lama lain: { users: [] } */
     if (data && Array.isArray(data.users)) {
         const defaultFolder = {
             id: "f_default_" + Date.now().toString(36),
@@ -1014,7 +1042,6 @@ async function apiLoad() {
 
     return { folders: [], users: [] };
 }
-
 
 async function apiSave(dataObj) {
 
@@ -1066,7 +1093,6 @@ async function loadData() {
         folders = Array.isArray(payload.folders) ? payload.folders : [];
         users   = Array.isArray(payload.users)   ? payload.users   : [];
 
-        /* Normalisasi folder */
         folders = folders.map((f, i) => {
             if (!f || typeof f !== "object") f = {};
             if (!f.id) f.id = "f_" + Date.now() + "_" + i;
@@ -1075,13 +1101,10 @@ async function loadData() {
             return f;
         });
 
-        /* Normalisasi user */
         normalizeUsers();
 
-        /* Pastikan setiap user punya folderId valid */
         const validFolderIds = new Set(folders.map(f => f.id));
         if (validFolderIds.size === 0) {
-            /* Buat folder default jika belum ada folder sama sekali */
             const def = {
                 id: "f_default_" + Date.now().toString(36),
                 name: "Folder 1",
@@ -1097,14 +1120,30 @@ async function loadData() {
             }
         });
 
-        activeFolderId = null;
-        showFolderList();
+        if (activeFolderId && !folders.find(f => f.id === activeFolderId)) {
+            activeFolderId = null;
+        }
+
+        if (activeFolderId) {
+            document.getElementById("folderView").style.display = "none";
+            document.getElementById("userView").style.display = "block";
+            const f = folders.find(x => x.id === activeFolderId);
+            if (f) {
+                document.getElementById("currentFolderIcon").textContent = "📁";
+                document.getElementById("currentFolderName").textContent = f.name;
+            }
+            render();
+        } else {
+            showFolderList();
+        }
+
         setConnStatus("ok");
 
     } catch (error) {
         console.error(error);
         folders = [];
         users = [];
+        activeFolderId = null;
         showFolderList();
         setConnStatus("err");
         showToast("Gagal memuat: " + error.message, "error");
@@ -1220,7 +1259,6 @@ function openFolder(folderId) {
         document.getElementById("currentFolderName").textContent = f.name;
     }
 
-    /* reset search/filter */
     const sEl = document.getElementById("search");
     const fEl = document.getElementById("filter");
     if (sEl) sEl.value = "";
@@ -1233,6 +1271,73 @@ function openFolder(folderId) {
 function closeFolder() {
     activeFolderId = null;
     showFolderList();
+}
+
+
+/* =========================================================
+   STATUS FOLDER — untuk indikator status dot
+   Prioritas: expired (merah) > warning (orange) > running (hijau) > idle (abu)
+   ========================================================= */
+
+function getFolderStatus(folderId) {
+
+    const list = users.filter(u => u.folderId === folderId);
+
+    if (list.length === 0) {
+        return { cls: "", label: "Kosong", text: "Folder kosong" };
+    }
+
+    let hasExpired = false;
+    let hasWarning = false;
+    let hasRunning = false;
+    let runningCount = 0;
+    let expiredCount = 0;
+    let warningCount = 0;
+
+    list.forEach(u => {
+        const s = getStatus(u);
+        const remain = getRemainingSeconds(u);
+
+        if (s === "expired") {
+            hasExpired = true;
+            expiredCount++;
+        } else if (s === "running") {
+            runningCount++;
+            hasRunning = true;
+            if (remain <= WARNING_THRESHOLD_SECONDS) {
+                hasWarning = true;
+                warningCount++;
+            }
+        }
+    });
+
+    if (hasExpired) {
+        return {
+            cls: "expired",
+            label: "Expired",
+            text: expiredCount + " user expired"
+        };
+    }
+    if (hasWarning) {
+        return {
+            cls: "warning",
+            label: "Warning",
+            text: warningCount + " user hampir habis"
+        };
+    }
+    if (hasRunning) {
+        return {
+            cls: "running",
+            label: "Running",
+            text: runningCount + " user running"
+        };
+    }
+
+    return {
+        cls: "",
+        label: "Idle",
+        text: "Tidak ada user running"
+    };
 }
 
 
@@ -1252,21 +1357,22 @@ function renderFolders() {
 
     let html = filtered.map(f => {
         const count = users.filter(u => u.folderId === f.id).length;
-        const full = count >= MAX_USERS_PER_FOLDER;
+        const status = getFolderStatus(f.id);
 
         return `
             <div class="folder-card" onclick="openFolder('${f.id}')">
+                <span class="folder-status ${status.cls}"
+                      title="${escapeAttr(status.text)}"
+                      aria-label="${escapeAttr(status.label)}"></span>
+
                 <div class="folder-head">
                     <span class="folder-icon">📁</span>
                     <div style="min-width:0;flex:1">
                         <div class="folder-name">${escapeHtml(f.name)}</div>
                     </div>
-                    <span class="folder-count ${full ? "full" : ""}">
-                        ${count}/${MAX_USERS_PER_FOLDER}
-                    </span>
                 </div>
                 <div class="folder-body">
-                    ${count} Users${full ? " · Folder penuh" : ""}
+                    ${count} Users
                 </div>
                 <div class="folder-actions" onclick="event.stopPropagation()">
                     <button class="btn" onclick="editFolder('${f.id}')">Rename</button>
@@ -1276,7 +1382,6 @@ function renderFolders() {
         `;
     }).join("");
 
-    /* Kartu tambah folder */
     html += `
         <div class="add-folder-card" onclick="openAddFolder()">
             <div class="plus">+</div>
@@ -1329,7 +1434,6 @@ function render() {
         return 0;
     });
 
-    /* Update badge folder */
     const f = folders.find(x => x.id === activeFolderId);
     if (f) {
         const count = folderUsers.length;
@@ -1551,6 +1655,62 @@ function startTickLoop() {
 
 
 /* =========================================================
+   RESET JAM — SEMUA USER DI SEMUA FOLDER (GLOBAL)
+   ========================================================= */
+
+function askResetAllTimers() {
+
+    if (!users.length) {
+        showToast("Belum ada user untuk direset", "error");
+        return;
+    }
+
+    document.getElementById("resetTitle").textContent = "Reset Semua Jam?";
+    document.getElementById("resetText").textContent =
+        "Semua timer (" + users.length + " user) di seluruh folder " +
+        "akan direset ke durasi awal (idle). Data user lain tidak dihapus.";
+
+    document.getElementById("resetModal").classList.add("show");
+}
+
+function closeReset() {
+    document.getElementById("resetModal").classList.remove("show");
+}
+
+async function confirmReset() {
+
+    if (!users.length) {
+        closeReset();
+        return;
+    }
+
+    users.forEach(u => {
+        const durationSeconds =
+            Number(u.timer?.durationSeconds) ||
+            (Number(u.timer?.durationDays) || 1) * SECONDS_PER_DAY;
+
+        u.timer = u.timer || {};
+        u.timer.durationSeconds  = durationSeconds;
+        u.timer.durationDays     = durationSeconds / SECONDS_PER_DAY;
+        u.timer.remainingSeconds = durationSeconds;
+        u.timer.remainingMs      = durationSeconds * 1000;
+        u.timer.endAt            = null;
+        u.timer.startedAt        = null;
+        u.timer.status           = "idle";
+    });
+
+    closeReset();
+
+    if (activeFolderId) render();
+    else renderFolders();
+    updateStats();
+
+    showToast("Semua timer direset ke durasi awal", "success");
+    await saveData(false);
+}
+
+
+/* =========================================================
    FOLDER — ADD / EDIT / DELETE
    ========================================================= */
 
@@ -1623,7 +1783,6 @@ async function deleteFolder(id) {
     folders = folders.filter(f => f.id !== id);
     users = users.filter(u => u.folderId !== id);
 
-    /* Jika tidak ada folder sama sekali, buat default */
     if (folders.length === 0) {
         const def = {
             id: "f_default_" + Date.now().toString(36),
@@ -1742,7 +1901,6 @@ async function saveUser() {
         const u = users.find(x => x.id === id);
         if (!u) return;
 
-        /* Cek kalau pindah folder dan folder tujuan penuh */
         if (targetFolderId !== u.folderId) {
             const targetCount = users.filter(x => x.folderId === targetFolderId).length;
             if (targetCount >= MAX_USERS_PER_FOLDER) {
@@ -1802,8 +1960,6 @@ async function saveUser() {
     }
 
     closeModal();
-
-    /* Jika user dipindahkan ke folder lain, tetap buka folder aktif sebelumnya */
     render();
     renderFolders();
     updateStats();
